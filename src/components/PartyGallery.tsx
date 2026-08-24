@@ -21,10 +21,7 @@ export default async function PartyGallery() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-12 min-[400px]:px-11.25">
       <div className="mb-6 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-        <h2 className="text-[28px]">Fester vi har været med til</h2>
-        <p className="text-sm text-neutral-500">
-          Konfirmationer, bryllupper, byfester og firmafester på Midtsjælland.
-        </p>
+        <h2 className="m-0">Events vi har været med til</h2>
       </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {images.map((doc, i) => {
@@ -35,7 +32,7 @@ export default async function PartyGallery() {
 
           return (
             <figure
-              className={`relative overflow-hidden rounded-lg ${
+              className={`relative m-0 overflow-hidden rounded-lg ${
                 isLarge ? 'col-span-2 aspect-16/10' : 'col-span-1 aspect-4/3'
               }`}
               key={doc.id}

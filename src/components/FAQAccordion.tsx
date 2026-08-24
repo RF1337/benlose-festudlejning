@@ -32,13 +32,13 @@ export function FAQAccordion({ items }: { items: FAQItem[] }) {
                 {item.question}
                 <span
                   aria-hidden="true"
-                  className="relative h-3.5 w-3.5 shrink-0 before:absolute before:left-1/2 before:top-1/2 before:h-0.5 before:w-3.5 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-current before:content-[''] after:absolute after:left-1/2 after:top-1/2 after:h-3.5 after:w-0.5 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-current after:transition-transform after:duration-200 after:content-[''] group-aria-expanded:after:rotate-90 group-aria-expanded:after:opacity-0"
+                  className="relative h-3.5 w-3.5 shrink-0 text-brand-gold before:absolute before:left-1/2 before:top-1/2 before:h-0.5 before:w-3.5 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-current before:content-[''] after:absolute after:left-1/2 after:top-1/2 after:h-3.5 after:w-0.5 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-current after:transition-transform after:duration-200 after:content-[''] group-aria-expanded:after:rotate-90 group-aria-expanded:after:opacity-0"
                 />
               </button>
             </h3>
             <div
               aria-labelledby={buttonId}
-              className="px-1 pb-5 text-[15px] leading-5.5 opacity-80"
+              className="px-1 pb-5 text-sm opacity-80"
               hidden={!isOpen}
               id={panelId}
               role="region"

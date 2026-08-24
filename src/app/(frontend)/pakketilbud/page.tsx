@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import { getPayload } from 'payload'
 import React from 'react'
 
 import config from '@/payload.config'
+import { ProductCard } from '@/components/ProductCard'
 import '../styles.css'
 
 export default async function PakketilbudPage() {
@@ -16,37 +16,23 @@ export default async function PakketilbudPage() {
   })
 
   return (
-    <div className="mx-auto max-w-5xl p-6 min-[400px]:p-11.25">
+    <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
       <h1 className="text-center">Pakketilbud</h1>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {bundles.map((bundle) => {
           const image = typeof bundle.image === 'object' ? bundle.image : null
-          const products = bundle.products?.filter((p) => typeof p === 'object') ?? []
 
           return (
-            <div className="rounded-lg border border-neutral-200 p-4" key={bundle.id}>
-              {image?.url && (
-                <Image
-                  alt={image.alt}
-                  className="mx-auto mb-3 rounded"
-                  height={220}
-                  src={image.url}
-                  width={220}
-                />
-              )}
-              <h2 className="mb-2 text-xl leading-6.5">{bundle.name}</h2>
-              {bundle.description && (
-                <p className="mb-2 text-[15px] leading-5.5">{bundle.description}</p>
-              )}
-              {products.length > 0 && (
-                <ul>
-                  {products.map((product) => (
-                    <li key={product.id}>{product.name}</li>
-                  ))}
-                </ul>
-              )}
-              <p className="font-bold">{bundle.price} kr</p>
-            </div>
+            <ProductCard
+              description={bundle.description}
+              detailsHref={`/pakketilbud/${bundle.slug}`}
+              image={image?.url ? { url: image.url, alt: image.alt } : null}
+              key={bundle.id}
+              name={bundle.name}
+              price={bundle.price}
+              productId={bundle.id}
+              type="bundle"
+            />
           )
         })}
         {bundles.length === 0 && <p>No package deals found.</p>}

@@ -25,7 +25,11 @@ export function OrderForm({ onClose }: { onClose: () => void }) {
           customerPhone: phone || undefined,
           eventDate: eventDate || undefined,
           comment: comment || undefined,
-          items: items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
+          items: items.map((item) => ({
+            productId: item.productId,
+            type: item.type,
+            quantity: item.quantity,
+          })),
         })
         setStatus('sent')
         clear()
@@ -55,12 +59,12 @@ export function OrderForm({ onClose }: { onClose: () => void }) {
         </button>
         {status === 'sent' ? (
           <div>
-            <h2 className="mt-0">Tak for din bestilling!</h2>
+            <h2 className="m-0 mb-3">Tak for din bestilling!</h2>
             <p>Vi har sendt en bekræftelse til {email}.</p>
           </div>
         ) : (
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <h2 className="mt-0">Dine oplysninger</h2>
+            <h2 className="m-0">Dine oplysninger</h2>
             <label className="flex flex-col gap-1 text-sm">
               Navn
               <input

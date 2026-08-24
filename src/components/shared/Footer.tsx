@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-brand-navy text-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-14 sm:flex-row sm:justify-between sm:px-10">
         <div>
-          <h3 className="font-heading text-lg text-brand-gold">Adresse</h3>
+          <h3 className="m-0 font-heading text-brand-gold">Adresse</h3>
           <p className="mt-3 text-sm leading-relaxed text-white/80">
             Benløse Festudlejning
             <br />
@@ -22,7 +22,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="font-heading text-lg text-brand-gold">Kontakt</h3>
+          <h3 className="m-0 font-heading text-brand-gold">Kontakt</h3>
           <p className="mt-3 text-sm leading-relaxed text-white/80">
             <a href="tel:+4541665561" className="no-underline text-brand-gold transition hover:text-white">
               41 66 55 61
@@ -42,7 +42,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="font-heading text-lg text-brand-gold">Følg os</h3>
+          <h3 className="m-0 font-heading text-brand-gold">Følg os</h3>
           <p className="mt-3 text-sm leading-relaxed text-white/80">
             <a
               href="https://www.facebook.com/people/Benløse-festudlejning/100057412061116/"

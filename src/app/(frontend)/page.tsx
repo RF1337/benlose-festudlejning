@@ -98,7 +98,7 @@ export default async function HomePage() {
             os på at svare inden for 24 timer.
           </p>
           <p className="mb-1 italic">Hilsen Morten og Heidi</p>
-          <p className="text-[15px] opacity-75">
+          <p className="text-sm opacity-75">
             Skriv dato for dit arrangement i kommentarfeltet, hvis du bestiller online. 🙂
           </p>
           <Link

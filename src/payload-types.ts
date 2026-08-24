@@ -242,7 +242,15 @@ export interface Order {
   eventDate?: string | null;
   comment?: string | null;
   items: {
-    product: number | Product;
+    item:
+      | {
+          relationTo: 'products';
+          value: number | Product;
+        }
+      | {
+          relationTo: 'product-bundles';
+          value: number | ProductBundle;
+        };
     quantity: number;
     id?: string | null;
   }[];
@@ -479,7 +487,7 @@ export interface OrdersSelect<T extends boolean = true> {
   items?:
     | T
     | {
-        product?: T;
+        item?: T;
         quantity?: T;
         id?: T;
       };

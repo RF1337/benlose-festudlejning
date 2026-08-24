@@ -36,13 +36,13 @@ export function CartWidget() {
           {items.map((item) => (
             <div
               className="flex flex-col gap-1.5 border-b border-neutral-200 py-2.5 text-sm last:border-b-0"
-              key={item.productId}
+              key={`${item.type}-${item.productId}`}
             >
               <span className="font-bold">{item.name}</span>
               <div className="flex items-center gap-2">
                 <button
                   className={buttonClass}
-                  onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                  onClick={() => updateQuantity(item.productId, item.type, item.quantity - 1)}
                   type="button"
                 >
                   −
@@ -50,14 +50,14 @@ export function CartWidget() {
                 <span>{item.quantity}</span>
                 <button
                   className={buttonClass}
-                  onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                  onClick={() => updateQuantity(item.productId, item.type, item.quantity + 1)}
                   type="button"
                 >
                   +
                 </button>
                 <button
                   className={`${buttonClass} ml-auto w-auto px-2 text-xs`}
-                  onClick={() => removeItem(item.productId)}
+                  onClick={() => removeItem(item.productId, item.type)}
                   type="button"
                 >
                   Fjern

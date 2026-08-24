@@ -1,5 +1,5 @@
 import React from 'react'
-import { Playfair_Display } from 'next/font/google'
+import { Instrument_Serif } from 'next/font/google'
 
 import { CartProvider } from './cart/CartContext'
 import './styles.css'
@@ -7,9 +7,10 @@ import './tailwind.css'
 import Header from '@/components/shared/Header'
 import Footer from '@/components/shared/Footer'
 
-const playfairDisplay = Playfair_Display({
+const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  weight: '400',
+  variable: '--font-instrument-serif',
 })
 
 export const metadata = {
@@ -21,7 +22,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
   return (
-    <html lang="da" className={playfairDisplay.variable}>
+    <html lang="da" className={instrumentSerif.variable}>
       <body>
         <CartProvider>
           <Header />

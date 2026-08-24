@@ -24,7 +24,7 @@ export default async function FAQSection() {
 
   return (
     <section className="mx-auto my-12 max-w-190 px-6 min-[400px]:px-11.25">
-      <h2 className="mb-6 text-center text-[28px]">Ofte stillede spørgsmål</h2>
+      <h2 className="m-0 mb-6 text-center">Ofte stillede spørgsmål</h2>
       <FAQAccordion items={items} />
     </section>
   )

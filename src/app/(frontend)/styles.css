@@ -7,8 +7,19 @@
 h1,
 h2,
 h3 {
-  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-family: var(--font-instrument-serif), 'Instrument Serif', serif;
+  font-weight: 400;
   color: var(--color-brand-navy);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl--line-height);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
 }
 
 * {
@@ -51,24 +62,23 @@ img {
 
 h1 {
   margin: 40px 0;
-  font-size: 64px;
-  line-height: 70px;
-  font-weight: bold;
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl--line-height);
 
   @media (max-width: 1024px) {
     margin: 24px 0;
-    font-size: 42px;
-    line-height: 42px;
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
   }
 
   @media (max-width: 768px) {
-    font-size: 38px;
-    line-height: 38px;
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
   }
 
   @media (max-width: 400px) {
-    font-size: 32px;
-    line-height: 32px;
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
   }
 }
 

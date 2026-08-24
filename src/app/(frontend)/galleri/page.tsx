@@ -25,7 +25,7 @@ export default async function GalleriPage() {
           if (!image?.url) return null
 
           return (
-            <figure className="relative aspect-[4/3] overflow-hidden rounded-lg" key={doc.id}>
+            <figure className="relative m-0 aspect-4/3 overflow-hidden rounded-lg" key={doc.id}>
               <Image
                 alt={doc.title}
                 className="object-cover"
@@ -33,7 +33,7 @@ export default async function GalleriPage() {
                 sizes="(max-width: 768px) 100vw, 33vw"
                 src={image.url}
               />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 to-transparent px-3 py-2 text-[13px] text-white">
+              <figcaption className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/60 to-transparent px-3 py-2 text-xs text-white">
                 {doc.title}
               </figcaption>
             </figure>

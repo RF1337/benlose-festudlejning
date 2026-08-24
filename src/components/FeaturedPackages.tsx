@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 
 import config from '@/payload.config'
+import { ProductCard } from '@/components/ProductCard'
 
 export default async function FeaturedPackages() {
   const payloadConfig = await config
@@ -19,28 +19,22 @@ export default async function FeaturedPackages() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-12 min-[400px]:px-11.25">
-      <h2 className="mb-6 text-center text-[28px]">Udvalgte pakketilbud</h2>
+      <h2 className="m-0 mb-6 text-center">Udvalgte pakketilbud</h2>
       <div className="grid gap-6 sm:grid-cols-3">
         {bundles.map((bundle) => {
           const image = typeof bundle.image === 'object' ? bundle.image : null
 
           return (
-            <div className="rounded-lg border border-neutral-200 p-4" key={bundle.id}>
-              {image?.url && (
-                <Image
-                  alt={image.alt}
-                  className="mx-auto mb-3 rounded"
-                  height={220}
-                  src={image.url}
-                  width={220}
-                />
-              )}
-              <h3 className="mb-2 text-xl leading-6.5">{bundle.name}</h3>
-              {bundle.description && (
-                <p className="mb-2 text-[15px] leading-5.5">{bundle.description}</p>
-              )}
-              <p className="font-bold">{bundle.price} kr</p>
-            </div>
+            <ProductCard
+              description={bundle.description}
+              detailsHref={`/pakketilbud/${bundle.slug}`}
+              image={image?.url ? { url: image.url, alt: image.alt } : null}
+              key={bundle.id}
+              name={bundle.name}
+              price={bundle.price}
+              productId={bundle.id}
+              type="bundle"
+            />
           )
         })}
       </div>
