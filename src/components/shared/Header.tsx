@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 import logo from '@/assets/benlose-festudlejning-logo.png'
@@ -17,9 +18,11 @@ const links = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white text-brand-navy shadow-md">
+    <header className="top-0 z-50 border-b border-neutral-200 bg-white text-brand-navy shadow-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3 sm:px-10">
         <Link href="/" className="shrink-0">
           <Image alt="Benløse Festudlejning" className="h-14 w-auto" priority src={logo} />
@@ -30,7 +33,9 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="no-underline transition hover:text-brand-gold"
+              className={`no-underline transition hover:text-brand-gold ${
+                isActive(link.href) ? 'text-brand-gold' : ''
+              }`}
             >
               {link.label}
             </Link>
@@ -83,7 +88,9 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="rounded px-2 py-2 no-underline transition hover:bg-neutral-100 hover:text-brand-gold"
+              className={`rounded px-2 py-2 no-underline transition hover:bg-neutral-100 hover:text-brand-gold ${
+                isActive(link.href) ? 'bg-neutral-100 text-brand-gold' : ''
+              }`}
             >
               {link.label}
             </Link>

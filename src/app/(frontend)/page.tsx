@@ -1,4 +1,5 @@
 import { getPayload } from 'payload'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -50,6 +51,8 @@ export default async function HomePage() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
+  const home = await payload.findGlobal({ slug: 'home' })
+
   const { docs: heroImages } = await payload.find({
     collection: 'gallery-images',
     where: {
@@ -73,34 +76,9 @@ export default async function HomePage() {
       <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
         <section>
           <h1 className="text-center">Benløse Festudlejning</h1>
-          <p>
-            Vi har sat os for at blive lokalbefolkningens foretrukne samarbejdspartner, når det
-            gælder leje af festtelt, teltgulv, borde, stole, service etc. til hygge og fest.
-          </p>
-          <p>
-            Vi leverer gratis i 4100 Ringsted ved bestillinger over 1.500 kr, og ellers til en fast
-            lav leveringspris på 150 kr i 4100 Ringsted. Vi leverer selvfølgelig også gerne på
-            resten af Sjælland – se vores fragtpriser under{' '}
-            <Link href="/lejebetingelser">Lejebetingelser</Link>.
-          </p>
-          <p>
-            Vi har nogle af branchens allerbedste priser og leverer kun materiel, vi kan stå inde
-            for. Vores certificerede telte leveres fra Lund Telte i Kibæk, som producerer
-            partytelte i høj europæisk kvalitet.
-          </p>
-          <p>
-            Som noget nyt udlejer vi nu også scenemoduler – perfekt når der skal være plads til
-            musikere eller anden underholdning. Du finder dem i{' '}
-            <Link href="/udlejning">Udlejningen</Link>.
-          </p>
-          <p>
-            Har du nogle spørgsmål, står vi gerne parat til at råde og vejlede dig, og vi bestræber
-            os på at svare inden for 24 timer.
-          </p>
-          <p className="mb-1 italic">Hilsen Morten og Heidi</p>
-          <p className="text-sm opacity-75">
-            Skriv dato for dit arrangement i kommentarfeltet, hvis du bestiller online. 🙂
-          </p>
+          <div className="[&_a]:text-brand-gold [&_a]:no-underline">
+            <RichText data={home.introduction} />
+          </div>
           <Link
             className="mb-2 mt-4 inline-block rounded bg-brand-navy px-6 py-2.5 font-bold text-white no-underline"
             href="/udlejning"

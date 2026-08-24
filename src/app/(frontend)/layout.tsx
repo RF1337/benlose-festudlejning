@@ -1,5 +1,6 @@
 import React from 'react'
 import { Instrument_Serif } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import { CartProvider } from './cart/CartContext'
 import './styles.css'
@@ -29,6 +30,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <main>{children}</main>
           <Footer />
         </CartProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
