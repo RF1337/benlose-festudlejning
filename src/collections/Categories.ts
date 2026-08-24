@@ -1,11 +1,12 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateAfterChange, revalidateAfterDelete } from '../hooks/revalidate'
 
-export const Products: CollectionConfig = {
-  slug: 'products',
+export const Categories: CollectionConfig = {
+  slug: 'categories',
 
   admin: {
     useAsTitle: 'name',
+    defaultColumns: ['name', 'parent', 'active'],
   },
 
   hooks: {
@@ -26,25 +27,12 @@ export const Products: CollectionConfig = {
       unique: true,
     },
     {
-      name: 'description',
-      type: 'textarea',
-    },
-    {
-      name: 'price',
-      type: 'number',
-      required: true,
-      min: 0,
-    },
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-    },
-    {
-      name: 'categories',
+      name: 'parent',
       type: 'relationship',
       relationTo: 'categories',
-      hasMany: true,
+      admin: {
+        description: 'Leave empty for a top-level category, or pick one to make this a subcategory.',
+      },
     },
     {
       name: 'active',

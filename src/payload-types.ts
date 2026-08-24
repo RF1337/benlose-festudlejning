@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     products: Product;
     'product-bundles': ProductBundle;
+    categories: Category;
     pages: Page;
     orders: Order;
     'gallery-images': GalleryImage;
@@ -86,6 +87,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-bundles': ProductBundlesSelect<false> | ProductBundlesSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>;
@@ -188,6 +190,23 @@ export interface Product {
   description?: string | null;
   price: number;
   image?: (number | null) | Media;
+  categories?: (number | Category)[] | null;
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  /**
+   * Leave empty for a top-level category, or pick one to make this a subcategory.
+   */
+  parent?: (number | null) | Category;
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -341,6 +360,10 @@ export interface PayloadLockedDocument {
         value: number | ProductBundle;
       } | null)
     | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -448,6 +471,7 @@ export interface ProductsSelect<T extends boolean = true> {
   description?: T;
   price?: T;
   image?: T;
+  categories?: T;
   active?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -463,6 +487,18 @@ export interface ProductBundlesSelect<T extends boolean = true> {
   image?: T;
   products?: T;
   price?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  parent?: T;
   active?: T;
   updatedAt?: T;
   createdAt?: T;

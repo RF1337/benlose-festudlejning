@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
 import { ProductBundles } from './collections/ProductBundles'
+import { Categories } from './collections/Categories'
 import { Pages } from './collections/Pages'
 import { Orders } from './collections/Orders'
 import { GalleryImages } from './collections/GalleryImages'
@@ -33,7 +34,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Products, ProductBundles, Pages, Orders, GalleryImages, FAQs],
+  collections: [Users, Media, Products, ProductBundles, Categories, Pages, Orders, GalleryImages, FAQs],
   globals: [Home],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
