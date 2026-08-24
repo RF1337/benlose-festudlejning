@@ -4,6 +4,9 @@ import React from 'react'
 
 import config from '@/payload.config'
 import { HeroCarousel } from '@/components/shared/HeroCarousel'
+import FeaturedPackages from '@/components/FeaturedPackages'
+import PartyGallery from '@/components/PartyGallery'
+import FAQSection from '@/components/FAQ'
 import './styles.css'
 
 const facebookPageUrl = 'https://www.facebook.com/people/Benløse-festudlejning/100057412061116/'
@@ -67,9 +70,9 @@ export default async function HomePage() {
   return (
     <>
       <HeroCarousel slides={heroSlides} />
-      <div className="home">
-        <section className="hero">
-          <h1>Benløse Festudlejning</h1>
+      <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
+        <section>
+          <h1 className="text-center">Benløse Festudlejning</h1>
           <p>
             Vi har sat os for at blive lokalbefolkningens foretrukne samarbejdspartner, når det
             gælder leje af festtelt, teltgulv, borde, stole, service etc. til hygge og fest.
@@ -94,82 +97,22 @@ export default async function HomePage() {
             Har du nogle spørgsmål, står vi gerne parat til at råde og vejlede dig, og vi bestræber
             os på at svare inden for 24 timer.
           </p>
-          <p className="signature">Hilsen Morten og Heidi</p>
-          <p className="note">
+          <p className="mb-1 italic">Hilsen Morten og Heidi</p>
+          <p className="text-[15px] opacity-75">
             Skriv dato for dit arrangement i kommentarfeltet, hvis du bestiller online. 🙂
           </p>
-          <Link className="cta" href="/udlejning">
+          <Link
+            className="mb-2 mt-4 inline-block rounded bg-brand-navy px-6 py-2.5 font-bold text-white no-underline"
+            href="/udlejning"
+          >
             Se udvalget
           </Link>
         </section>
-
-        <section className="features">
-          {features.map((feature) => (
-            <div className="feature-card" key={feature.title}>
-              <h2>{feature.title}</h2>
-              <p>{feature.text}</p>
-            </div>
-          ))}
-        </section>
-
-        <section className="contact-info">
-          <div>
-            <h3>Adresse</h3>
-            <p>
-              Benløse Festudlejning
-              <br />
-              Byskovvej 9
-              <br />
-              4100 Ringsted
-              <br />
-              CVR-nr. DK41436565
-            </p>
-          </div>
-          <div>
-            <h3>Telefon</h3>
-            <p>
-              41 66 55 61
-              <br />
-              Mandag - Søndag
-              <br />
-              09.00 - 18.00
-            </p>
-          </div>
-          <div>
-            <h3>E-mail</h3>
-            <p>
-              <a href="mailto:kontakt@benlose-festudlejning.dk">kontakt@benlose-festudlejning.dk</a>
-            </p>
-          </div>
-        </section>
-
-        <section className="testimonials">
-          <h2>Det siger vores kunder</h2>
-          <div className="testimonial-grid">
-            {testimonials.map((testimonial) => (
-              <div className="testimonial-card" key={testimonial.name}>
-                <p>&ldquo;{testimonial.quote}&rdquo;</p>
-                <p className="testimonial-name">{testimonial.name}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="facebook-feed">
-          <h2>Følg os på Facebook</h2>
-          <div className="facebook-embed">
-            <iframe
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              frameBorder="0"
-              height="600"
-              scrolling="no"
-              src={facebookEmbedSrc}
-              style={{ border: 'none', overflow: 'hidden', width: '100%' }}
-              width="500"
-            />
-          </div>
-        </section>
       </div>
+
+      <FeaturedPackages />
+      <PartyGallery />
+      <FAQSection />
     </>
   )
 }

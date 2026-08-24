@@ -1,27 +1,28 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { getPayload } from 'payload'
-import React from 'react'
 
 import config from '@/payload.config'
-import '../styles.css'
 
-export default async function PakketilbudPage() {
+export default async function FeaturedPackages() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
   const { docs: bundles } = await payload.find({
     collection: 'product-bundles',
     where: { active: { equals: true } },
+    limit: 3,
     depth: 1,
   })
 
+  if (bundles.length === 0) return null
+
   return (
-    <div className="mx-auto max-w-5xl p-6 min-[400px]:p-11.25">
-      <h1 className="text-center">Pakketilbud</h1>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-6">
+    <section className="mx-auto max-w-6xl px-6 py-12 min-[400px]:px-11.25">
+      <h2 className="mb-6 text-center text-[28px]">Udvalgte pakketilbud</h2>
+      <div className="grid gap-6 sm:grid-cols-3">
         {bundles.map((bundle) => {
           const image = typeof bundle.image === 'object' ? bundle.image : null
-          const products = bundle.products?.filter((p) => typeof p === 'object') ?? []
 
           return (
             <div className="rounded-lg border border-neutral-200 p-4" key={bundle.id}>
@@ -34,23 +35,23 @@ export default async function PakketilbudPage() {
                   width={220}
                 />
               )}
-              <h2 className="mb-2 text-xl leading-6.5">{bundle.name}</h2>
+              <h3 className="mb-2 text-xl leading-6.5">{bundle.name}</h3>
               {bundle.description && (
                 <p className="mb-2 text-[15px] leading-5.5">{bundle.description}</p>
-              )}
-              {products.length > 0 && (
-                <ul>
-                  {products.map((product) => (
-                    <li key={product.id}>{product.name}</li>
-                  ))}
-                </ul>
               )}
               <p className="font-bold">{bundle.price} kr</p>
             </div>
           )
         })}
-        {bundles.length === 0 && <p>No package deals found.</p>}
       </div>
-    </div>
+      <div className="mt-8 text-center">
+        <Link
+          className="inline-block rounded bg-brand-navy px-6 py-2.5 font-bold text-white no-underline"
+          href="/pakketilbud"
+        >
+          Se alle pakketilbud
+        </Link>
+      </div>
+    </section>
   )
 }

@@ -1,4 +1,5 @@
 import { getPayload } from 'payload'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import React from 'react'
 
 import config from '@/payload.config'
@@ -16,10 +17,10 @@ export default async function LejebetingelserPage() {
   const page = docs[0]
 
   return (
-    <div className="page">
-      <h1>{page?.title || 'Lejebetingelser'}</h1>
+    <div className="mx-auto max-w-5xl p-6 min-[400px]:p-11.25">
+      <h1 className="text-center">{page?.title || 'Lejebetingelser'}</h1>
       {page?.content ? (
-        page.content.split('\n').map((paragraph, i) => <p key={i}>{paragraph}</p>)
+        <RichText data={page.content} />
       ) : (
         <p>
           Ingen lejebetingelser er tilføjet endnu. Opret en side med slug &quot;lejebetingelser&quot;

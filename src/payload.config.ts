@@ -13,6 +13,7 @@ import { ProductBundles } from './collections/ProductBundles'
 import { Pages } from './collections/Pages'
 import { Orders } from './collections/Orders'
 import { GalleryImages } from './collections/GalleryImages'
+import { FAQs } from './collections/FAQs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -30,7 +31,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Products, ProductBundles, Pages, Orders, GalleryImages],
+  collections: [Users, Media, Products, ProductBundles, Pages, Orders, GalleryImages, FAQs],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

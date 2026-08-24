@@ -74,6 +74,7 @@ export interface Config {
     pages: Page;
     orders: Order;
     'gallery-images': GalleryImage;
+    faqs: Faq;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +89,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     'gallery-images': GalleryImagesSelect<false> | GalleryImagesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -210,7 +212,21 @@ export interface Page {
   id: number;
   title: string;
   slug: string;
-  content?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -250,6 +266,22 @@ export interface GalleryImage {
   showInHero?: boolean | null;
   /**
    * Lower numbers appear first, both in the hero rotation and the gallery.
+   */
+  order?: number | null;
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  /**
+   * Lower numbers appear first.
    */
   order?: number | null;
   active?: boolean | null;
@@ -307,6 +339,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'gallery-images';
         value: number | GalleryImage;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -458,6 +494,18 @@ export interface GalleryImagesSelect<T extends boolean = true> {
   title?: T;
   image?: T;
   showInHero?: T;
+  order?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
   order?: T;
   active?: T;
   updatedAt?: T;

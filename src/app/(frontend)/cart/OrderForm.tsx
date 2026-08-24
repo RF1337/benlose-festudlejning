@@ -35,58 +35,86 @@ export function OrderForm({ onClose }: { onClose: () => void }) {
     })
   }
 
+  const inputClass = '[font:inherit] rounded border border-neutral-200 p-2'
+
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} type="button">
+    <div
+      className="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-6"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-h-[90vh] w-full max-w-105 overflow-y-auto rounded-lg bg-white p-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute right-4 top-3 cursor-pointer border-none bg-transparent text-2xl leading-none"
+          onClick={onClose}
+          type="button"
+        >
           ×
         </button>
         {status === 'sent' ? (
           <div>
-            <h2>Tak for din bestilling!</h2>
+            <h2 className="mt-0">Tak for din bestilling!</h2>
             <p>Vi har sendt en bekræftelse til {email}.</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <h2>Dine oplysninger</h2>
-            <label>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <h2 className="mt-0">Dine oplysninger</h2>
+            <label className="flex flex-col gap-1 text-sm">
               Navn
               <input
+                className={inputClass}
                 onChange={(e) => setName(e.target.value)}
                 required
                 type="text"
                 value={name}
               />
             </label>
-            <label>
+            <label className="flex flex-col gap-1 text-sm">
               Email
               <input
+                className={inputClass}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 type="email"
                 value={email}
               />
             </label>
-            <label>
+            <label className="flex flex-col gap-1 text-sm">
               Telefon
-              <input onChange={(e) => setPhone(e.target.value)} type="tel" value={phone} />
+              <input
+                className={inputClass}
+                onChange={(e) => setPhone(e.target.value)}
+                type="tel"
+                value={phone}
+              />
             </label>
-            <label>
+            <label className="flex flex-col gap-1 text-sm">
               Dato for arrangement
               <input
+                className={inputClass}
                 onChange={(e) => setEventDate(e.target.value)}
                 type="date"
                 value={eventDate}
               />
             </label>
-            <label>
+            <label className="flex flex-col gap-1 text-sm">
               Kommentar
-              <textarea onChange={(e) => setComment(e.target.value)} value={comment} />
+              <textarea
+                className={`${inputClass} min-h-17.5 resize-y`}
+                onChange={(e) => setComment(e.target.value)}
+                value={comment}
+              />
             </label>
             {status === 'error' && (
-              <p className="order-status error">Noget gik galt, prøv igen.</p>
+              <p className="text-sm text-red-600">Noget gik galt, prøv igen.</p>
             )}
-            <button className="cta" disabled={isPending} type="submit">
+            <button
+              className="inline-block cursor-pointer rounded border-none bg-brand-navy px-6 py-2.5 font-bold text-white disabled:cursor-default disabled:opacity-60"
+              disabled={isPending}
+              type="submit"
+            >
               {isPending ? 'Sender...' : 'Bekræft bestilling'}
             </button>
           </form>

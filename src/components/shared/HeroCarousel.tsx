@@ -25,23 +25,32 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
   if (slides.length === 0) return null
 
   return (
-    <div className="hero-carousel">
+    <div className="relative h-dvh w-full overflow-hidden bg-neutral-900">
       {slides.map((slide, i) => (
         <div
-          className="hero-carousel-slide"
+          className="absolute inset-0 opacity-0 transition-opacity duration-1200 ease-in-out"
           key={slide.id}
           style={{ opacity: i === index ? 1 : 0 }}
         >
-          <Image alt={slide.alt} fill priority={i === 0} sizes="100vw" src={slide.url} />
+          <Image
+            alt={slide.alt}
+            className="object-cover"
+            fill
+            priority={i === 0}
+            sizes="100vw"
+            src={slide.url}
+          />
         </div>
       ))}
 
       {slides.length > 1 && (
-        <div className="hero-carousel-dots">
+        <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2.5">
           {slides.map((slide, i) => (
             <button
               aria-label={`Vis billede ${i + 1}`}
-              className={i === index ? 'active' : ''}
+              className={`h-2.5 w-2.5 cursor-pointer rounded-full border border-white p-0 ${
+                i === index ? 'bg-white' : 'bg-white/40'
+              }`}
               key={slide.id}
               onClick={() => setIndex(i)}
               type="button"

@@ -18,7 +18,7 @@ export function AddToCartButton({
 
   return (
     <button
-      className="buy-button"
+      className="cursor-pointer rounded border border-brand-navy bg-brand-navy px-4 py-2 text-sm text-white disabled:cursor-default disabled:opacity-60"
       onClick={() => {
         addItem({ productId, name, price })
         setAdded(true)
