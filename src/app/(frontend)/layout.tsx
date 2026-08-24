@@ -1,18 +1,33 @@
 import React from 'react'
+import { Playfair_Display } from 'next/font/google'
+
+import { CartProvider } from './cart/CartContext'
 import './styles.css'
+import './tailwind.css'
+import Header from '@/components/shared/Header'
+import Footer from '@/components/shared/Footer'
+
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+})
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'Benløse Festudlejning',
+  title: 'Benløse Festudlejning',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
   return (
-    <html lang="en">
+    <html lang="da" className={playfairDisplay.variable}>
       <body>
-        <main>{children}</main>
+        <CartProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   )

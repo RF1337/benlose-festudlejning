@@ -1,0 +1,8 @@
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --color-brand-navy: #051d3c;
+  --color-brand-gold: #be8e2f;
+  --font-heading: var(--font-playfair), 'Playfair Display', serif;
+}
