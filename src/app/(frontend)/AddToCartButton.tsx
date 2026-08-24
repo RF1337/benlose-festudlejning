@@ -26,7 +26,7 @@ export function AddToCartButton({
     <button
       className={
         className ??
-        'cursor-pointer rounded border border-brand-navy bg-brand-navy px-4 py-2 text-sm text-white disabled:cursor-default disabled:opacity-60'
+        'cursor-pointer rounded border border-brand-navy bg-brand-navy px-4 py-2 text-sm text-white transition-colors hover:border-brand-gold hover:bg-brand-gold disabled:cursor-default disabled:opacity-60 disabled:hover:border-brand-navy disabled:hover:bg-brand-navy'
       }
       onClick={() => {
         addItem({ productId, type, name, price }, quantity)

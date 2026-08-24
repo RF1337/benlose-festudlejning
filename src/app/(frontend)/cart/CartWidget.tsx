@@ -71,7 +71,7 @@ export function CartWidget() {
             <>
               <p className="mt-3 font-bold">I alt: {formatPrice(total)}</p>
               <button
-                className="w-full cursor-pointer rounded border-none bg-brand-navy py-2.5 font-bold text-white"
+                className="w-full cursor-pointer rounded border-none bg-brand-navy py-2.5 font-bold text-white transition-colors hover:bg-brand-gold"
                 onClick={() => {
                   setShowForm(true)
                   setOpen(false)

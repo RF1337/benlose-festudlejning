@@ -115,7 +115,7 @@ export function OrderForm({ onClose }: { onClose: () => void }) {
               <p className="text-sm text-red-600">Noget gik galt, prøv igen.</p>
             )}
             <button
-              className="inline-block cursor-pointer rounded border-none bg-brand-navy px-6 py-2.5 font-bold text-white disabled:cursor-default disabled:opacity-60"
+              className="inline-block cursor-pointer rounded border-none bg-brand-navy px-6 py-2.5 font-bold text-white transition-colors hover:bg-brand-gold disabled:cursor-default disabled:opacity-60 disabled:hover:bg-brand-navy"
               disabled={isPending}
               type="submit"
             >

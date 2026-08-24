@@ -23,7 +23,7 @@ export function ProductCard({
   detailsHref: string
 }) {
   const buttonClass =
-    'pointer-events-auto w-full cursor-pointer rounded border border-brand-navy bg-brand-navy px-3 py-2 text-center text-sm font-bold text-white no-underline disabled:cursor-default disabled:opacity-60'
+    'pointer-events-auto w-full cursor-pointer rounded border border-brand-navy bg-brand-navy px-3 py-2 text-center text-sm font-bold text-white no-underline transition-colors hover:border-brand-gold hover:bg-brand-gold disabled:cursor-default disabled:opacity-60 disabled:hover:border-brand-navy disabled:hover:bg-brand-navy'
 
   return (
     <div className="relative flex flex-col overflow-hidden rounded-lg border border-neutral-200">

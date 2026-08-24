@@ -44,7 +44,7 @@ export default function Header() {
           ))}
           <a
             href="mailto:rasmusferst@gmail.com"
-            className="rounded bg-brand-navy px-4 py-1.5 text-sm font-bold text-white no-underline transition hover:opacity-90"
+            className="rounded bg-brand-navy px-4 py-1.5 text-sm font-bold text-white no-underline transition-colors hover:bg-brand-gold"
           >
             Kontakt
           </a>

@@ -82,7 +82,7 @@ export default async function HomePage() {
             </div>
           )}
           <Link
-            className="mb-2 mt-4 inline-block rounded bg-brand-navy px-6 py-2.5 font-bold text-white no-underline"
+            className="mb-2 mt-4 inline-block rounded bg-brand-navy px-6 py-2.5 font-bold text-white no-underline transition-colors hover:bg-brand-gold"
             href="/udlejning"
           >
             Se udvalget
