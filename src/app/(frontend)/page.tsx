@@ -76,9 +76,11 @@ export default async function HomePage() {
       <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
         <section>
           <h1 className="text-center">Benløse Festudlejning</h1>
-          <div className="[&_a]:text-brand-gold [&_a]:no-underline">
-            <RichText data={home.introduction} />
-          </div>
+          {home.introduction && (
+            <div className="[&_a]:text-brand-gold [&_a]:no-underline">
+              <RichText data={home.introduction} />
+            </div>
+          )}
           <Link
             className="mb-2 mt-4 inline-block rounded bg-brand-navy px-6 py-2.5 font-bold text-white no-underline"
             href="/udlejning"
