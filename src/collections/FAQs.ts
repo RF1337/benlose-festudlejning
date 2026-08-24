@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateAfterChange, revalidateAfterDelete } from '../hooks/revalidate'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
@@ -6,6 +7,11 @@ export const FAQs: CollectionConfig = {
   admin: {
     useAsTitle: 'question',
     defaultColumns: ['question', 'order', 'active'],
+  },
+
+  hooks: {
+    afterChange: [revalidateAfterChange],
+    afterDelete: [revalidateAfterDelete],
   },
 
   fields: [
