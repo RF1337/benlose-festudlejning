@@ -24,10 +24,6 @@ export default function Footer() {
         <div>
           <h3 className="m-0 font-heading text-brand-gold">Kontakt</h3>
           <p className="mt-3 text-sm leading-relaxed text-white/80">
-            <a href="tel:+4541665561" className="no-underline text-brand-gold transition hover:text-white">
-              41 66 55 61
-            </a>
-            <br />
             Mandag - Søndag
             <br />
             09.00 - 18.00
@@ -37,6 +33,10 @@ export default function Footer() {
               className="no-underline text-brand-gold transition hover:text-white"
             >
               kontakt@benlose-festudlejning.dk
+            </a>
+            <br />
+            <a href="tel:+4541665561" className="no-underline text-brand-gold transition hover:text-white">
+              41 66 55 61
             </a>
           </p>
         </div>

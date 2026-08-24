@@ -17,7 +17,7 @@ export default async function LejebetingelserPage() {
   const page = docs[0]
 
   return (
-    <div className="mx-auto max-w-5xl p-6 min-[400px]:p-11.25">
+    <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
       <h1 className="text-center">{page?.title || 'Lejebetingelser'}</h1>
       {page?.content ? (
         <RichText data={page.content} />

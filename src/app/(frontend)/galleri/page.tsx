@@ -13,6 +13,7 @@ export default async function GalleriPage() {
     collection: 'gallery-images',
     where: { active: { equals: true } },
     sort: 'order',
+    limit: 0,
     depth: 1,
   })
 

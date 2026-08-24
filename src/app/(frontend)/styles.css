@@ -67,18 +67,6 @@ h1 {
 
   @media (max-width: 1024px) {
     margin: 24px 0;
-    font-size: var(--text-4xl);
-    line-height: var(--text-4xl--line-height);
-  }
-
-  @media (max-width: 768px) {
-    font-size: var(--text-3xl);
-    line-height: var(--text-3xl--line-height);
-  }
-
-  @media (max-width: 400px) {
-    font-size: var(--text-2xl);
-    line-height: var(--text-2xl--line-height);
   }
 }
 
