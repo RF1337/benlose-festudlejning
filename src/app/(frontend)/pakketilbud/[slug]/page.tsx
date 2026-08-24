@@ -6,6 +6,7 @@ import React from 'react'
 
 import config from '@/payload.config'
 import { QuantityAddToCart } from '@/components/QuantityAddToCart'
+import { formatPrice } from '@/utilities/formatPrice'
 import '../../styles.css'
 
 export default async function BundleDetailPage({
@@ -49,7 +50,7 @@ export default async function BundleDetailPage({
         </div>
         <div>
           <h1 className="m-0">{bundle.name}</h1>
-          <p className="mb-2 font-bold">{bundle.price} kr</p>
+          <p className="mb-2 font-bold">{formatPrice(bundle.price)}</p>
           {bundle.description && <p>{bundle.description}</p>}
           {products.length > 0 && (
             <ul>

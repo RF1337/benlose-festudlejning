@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 
 import { useCart } from './CartContext'
 import { OrderForm } from './OrderForm'
+import { formatPrice } from '@/utilities/formatPrice'
 
 export function CartWidget() {
   const { items, itemCount, removeItem, updateQuantity } = useCart()
@@ -63,12 +64,12 @@ export function CartWidget() {
                   Fjern
                 </button>
               </div>
-              <span>{item.price * item.quantity} kr</span>
+              <span>{formatPrice(item.price * item.quantity)}</span>
             </div>
           ))}
           {items.length > 0 && (
             <>
-              <p className="mt-3 font-bold">I alt: {total} kr</p>
+              <p className="mt-3 font-bold">I alt: {formatPrice(total)}</p>
               <button
                 className="w-full cursor-pointer rounded border-none bg-brand-navy py-2.5 font-bold text-white"
                 onClick={() => {

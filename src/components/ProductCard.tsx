@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { AddToCartButton } from '@/app/(frontend)/AddToCartButton'
 import type { CartItemType } from '@/app/(frontend)/cart/CartContext'
+import { formatPrice } from '@/utilities/formatPrice'
 
 export function ProductCard({
   productId,
@@ -41,7 +42,7 @@ export function ProductCard({
       <div className="pointer-events-none relative flex flex-1 flex-col gap-2 bg-white p-4">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="m-0 min-w-0 text-xl">{name}</h2>
-          <span className="shrink-0 whitespace-nowrap font-bold">{price} kr</span>
+          <span className="shrink-0 whitespace-nowrap font-bold">{formatPrice(price)}</span>
         </div>
         {description && <p className="m-0 text-sm">{description}</p>}
         <div className="mt-auto pt-3">

@@ -3,6 +3,7 @@
 import { getPayload } from 'payload'
 
 import config from '@/payload.config'
+import { formatPrice } from '@/utilities/formatPrice'
 
 type CartItemType = 'product' | 'bundle'
 
@@ -48,7 +49,7 @@ export async function submitOrder(input: OrderInput) {
   const lines = entries
     .map(
       (entry, i) =>
-        `${entry.name} x${input.items[i].quantity} — ${entry.price * input.items[i].quantity} kr`,
+        `${entry.name} x${input.items[i].quantity} — ${formatPrice(entry.price * input.items[i].quantity)}`,
     )
     .join('<br>')
   const total = entries.reduce(
@@ -57,7 +58,7 @@ export async function submitOrder(input: OrderInput) {
   )
   const details = `
     <p>${lines}</p>
-    <p><strong>I alt: ${total} kr</strong></p>
+    <p><strong>I alt: ${formatPrice(total)}</strong></p>
     ${input.eventDate ? `<p>Dato for arrangement: ${input.eventDate}</p>` : ''}
     ${input.comment ? `<p>Kommentar: ${input.comment}</p>` : ''}
   `

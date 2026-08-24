@@ -6,6 +6,7 @@ import React from 'react'
 
 import config from '@/payload.config'
 import { QuantityAddToCart } from '@/components/QuantityAddToCart'
+import { formatPrice } from '@/utilities/formatPrice'
 import '../../styles.css'
 
 export default async function ProductDetailPage({
@@ -48,7 +49,7 @@ export default async function ProductDetailPage({
         </div>
         <div>
           <h1 className="m-0">{product.name}</h1>
-          <p className="mb-2 font-bold">{product.price} kr</p>
+          <p className="mb-2 font-bold">{formatPrice(product.price)}</p>
           {product.description && <p>{product.description}</p>}
           <QuantityAddToCart
             name={product.name}
