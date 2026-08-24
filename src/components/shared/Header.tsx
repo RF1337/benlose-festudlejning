@@ -22,19 +22,21 @@ export default function Header() {
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
-    <header className="top-0 z-50 border-b border-neutral-200 bg-white text-brand-navy shadow-md">
+    <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white text-brand-navy shadow-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3 sm:px-10">
         <Link href="/" className="shrink-0">
           <Image alt="Benløse Festudlejning" className="h-14 w-auto" priority src={logo} />
         </Link>
 
-        <nav className="hidden items-center gap-6 text-sm sm:flex">
+        <nav className="hidden items-center gap-8 sm:flex">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`no-underline transition hover:text-brand-gold ${
-                isActive(link.href) ? 'text-brand-gold' : ''
+              className={`border-b-2 py-1 text-sm font-medium tracking-wide no-underline transition-colors hover:text-brand-gold ${
+                isActive(link.href)
+                  ? 'border-brand-gold text-brand-gold'
+                  : 'border-transparent text-brand-navy hover:border-brand-gold/40'
               }`}
             >
               {link.label}
@@ -42,7 +44,7 @@ export default function Header() {
           ))}
           <a
             href="mailto:rasmusferst@gmail.com"
-            className="rounded bg-brand-navy px-4 py-1.5 font-bold text-white no-underline transition hover:opacity-90"
+            className="rounded bg-brand-navy px-4 py-1.5 text-sm font-bold text-white no-underline transition hover:opacity-90"
           >
             Kontakt
           </a>
@@ -82,14 +84,16 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <nav className="flex flex-col gap-1 border-t border-neutral-200 px-6 pb-4 text-sm sm:hidden">
+        <nav className="flex flex-col gap-1 border-t border-neutral-200 px-4 pb-4 pt-2 sm:hidden">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className={`rounded px-2 py-2 no-underline transition hover:bg-neutral-100 hover:text-brand-gold ${
-                isActive(link.href) ? 'bg-neutral-100 text-brand-gold' : ''
+              className={`rounded-lg border-l-2 px-3 py-2.5 text-base font-medium no-underline transition hover:bg-neutral-100 hover:text-brand-gold ${
+                isActive(link.href)
+                  ? 'border-brand-gold bg-neutral-100 text-brand-gold'
+                  : 'border-transparent text-brand-navy'
               }`}
             >
               {link.label}
@@ -98,7 +102,7 @@ export default function Header() {
           <a
             href="mailto:rasmusferst@gmail.com"
             onClick={() => setMenuOpen(false)}
-            className="rounded px-2 py-2 no-underline transition hover:bg-neutral-100 hover:text-brand-gold"
+            className="mt-1 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-base font-medium no-underline transition hover:bg-neutral-100 hover:text-brand-gold"
           >
             Kontakt
           </a>

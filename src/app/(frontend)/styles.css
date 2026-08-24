@@ -34,12 +34,6 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
-html,
-body,
-#app {
-  height: 100%;
-}
-
 body {
   font-family: system-ui;
   font-size: 18px;
