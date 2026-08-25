@@ -106,6 +106,17 @@ export const Products: CollectionConfig = {
       ],
     },
     {
+      name: 'relatedProducts',
+      type: 'relationship',
+      relationTo: 'products',
+      hasMany: true,
+      label: 'Relaterede produkter',
+      admin: {
+        description: 'Vises som "Andre kunder kiggede også på" nederst på produktsiden.',
+      },
+      filterOptions: ({ id }) => (id ? { id: { not_equals: id } } : true),
+    },
+    {
       name: 'active',
       type: 'checkbox',
       defaultValue: true,

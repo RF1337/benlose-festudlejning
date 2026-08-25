@@ -223,6 +223,10 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Vises som "Andre kunder kiggede også på" nederst på produktsiden.
+   */
+  relatedProducts?: (number | Product)[] | null;
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -530,6 +534,7 @@ export interface ProductsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  relatedProducts?: T;
   active?: T;
   updatedAt?: T;
   createdAt?: T;
