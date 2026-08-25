@@ -112,7 +112,7 @@ export const Products: CollectionConfig = {
       hasMany: true,
       label: 'Relaterede produkter',
       admin: {
-        description: 'Vises som "Andre kunder kiggede også på" nederst på produktsiden.',
+        description: 'Vises som "Måske synes du også om" nederst på produktsiden.',
       },
       filterOptions: ({ id }) => (id ? { id: { not_equals: id } } : true),
     },

@@ -91,7 +91,7 @@ export default async function ProductDetailPage({
 
       {relatedProducts.length > 0 && (
         <section className="mt-16">
-          <h2 className="mb-6">Andre kunder kiggede også på</h2>
+          <h2 className="mb-6">Måske synes du også om</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {relatedProducts.map((related) => {
               const relatedImage = typeof related.image === 'object' ? related.image : null

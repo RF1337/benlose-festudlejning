@@ -224,7 +224,7 @@ export interface Product {
       }[]
     | null;
   /**
-   * Vises som "Andre kunder kiggede også på" nederst på produktsiden.
+   * Vises som "Måske synes du også om" nederst på produktsiden.
    */
   relatedProducts?: (number | Product)[] | null;
   active?: boolean | null;
