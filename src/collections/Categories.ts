@@ -25,6 +25,10 @@ export const Categories: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
+      admin: {
+        description:
+          'Skal være unik på tværs af ALLE kategorier, ikke kun søskende-kategorier. Hvis navnet allerede findes i en anden gruppe (fx "Plastik" under både Stole og Bestik), så gør sluggen tydelig, fx "stole-plastik" og "bestik-plastik".',
+      },
     },
     {
       name: 'parent',
