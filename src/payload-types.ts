@@ -189,7 +189,23 @@ export interface Product {
   slug: string;
   description?: string | null;
   price: number;
+  /**
+   * Hovedbillede. Vises som udgangspunkt på produktsiden og i lister.
+   */
   image?: (number | null) | Media;
+  /**
+   * Andre billeder af produktet, fx andre farver. Udfyld "Matcher valgmulighed" med teksten fra en værdi under Valgmuligheder (fx "Grå"), så billedet vises automatisk når den valgmulighed vælges.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        /**
+         * Valgfrit. Skal matche en værdi under Valgmuligheder præcist, fx "Grå".
+         */
+        matchesVariantValue?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   categories?: (number | Category)[] | null;
   /**
    * Fx farve, eller type hvis produktet er bestik (gaffel/ske/kniv). Hver gruppe vises som en dropdown på produktsiden.
@@ -218,6 +234,9 @@ export interface Product {
 export interface Category {
   id: number;
   name: string;
+  /**
+   * Skal være unik på tværs af ALLE kategorier, ikke kun søskende-kategorier. Hvis navnet allerede findes i en anden gruppe (fx "Plastik" under både Stole og Bestik), så gør sluggen tydelig, fx "stole-plastik" og "bestik-plastik".
+   */
   slug: string;
   /**
    * Leave empty for a top-level category, or pick one to make this a subcategory.
@@ -491,6 +510,13 @@ export interface ProductsSelect<T extends boolean = true> {
   description?: T;
   price?: T;
   image?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        matchesVariantValue?: T;
+        id?: T;
+      };
   categories?: T;
   variants?:
     | T

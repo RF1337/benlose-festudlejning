@@ -13,17 +13,28 @@ export function QuantityAddToCart({
   name,
   price,
   variantGroups = [],
+  selected: controlledSelected,
+  onVariantChange,
 }: {
   productId: number
   type: CartItemType
   name: string
   price: number
   variantGroups?: VariantGroup[]
+  // Uncontrolled by default. Pass both to sync selection with something else (e.g. a
+  // product gallery that swaps photos when a matching variant is picked).
+  selected?: Record<string, string>
+  onVariantChange?: (label: string, value: string) => void
 }) {
   const [quantity, setQuantity] = useState(1)
-  const [selected, setSelected] = useState<Record<string, string>>(() =>
+  const [internalSelected, setInternalSelected] = useState<Record<string, string>>(() =>
     Object.fromEntries(variantGroups.map((group) => [group.label, group.options[0]])),
   )
+  const selected = controlledSelected ?? internalSelected
+  const setVariant = (label: string, value: string) => {
+    if (onVariantChange) onVariantChange(label, value)
+    else setInternalSelected((prev) => ({ ...prev, [label]: value }))
+  }
 
   const stepButtonClass =
     'h-9 w-9 cursor-pointer rounded border border-neutral-200 bg-white text-lg'
@@ -41,7 +52,7 @@ export function QuantityAddToCart({
               {group.label}
               <select
                 className={selectClass}
-                onChange={(e) => setSelected((prev) => ({ ...prev, [group.label]: e.target.value }))}
+                onChange={(e) => setVariant(group.label, e.target.value)}
                 value={selected[group.label]}
               >
                 {group.options.map((option) => (

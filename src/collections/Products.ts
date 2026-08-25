@@ -39,6 +39,33 @@ export const Products: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
+      admin: {
+        description: 'Hovedbillede. Vises som udgangspunkt på produktsiden og i lister.',
+      },
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      label: 'Ekstra billeder',
+      admin: {
+        description:
+          'Andre billeder af produktet, fx andre farver. Udfyld "Matcher valgmulighed" med teksten fra en værdi under Valgmuligheder (fx "Grå"), så billedet vises automatisk når den valgmulighed vælges.',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'matchesVariantValue',
+          type: 'text',
+          admin: {
+            description: 'Valgfrit. Skal matche en værdi under Valgmuligheder præcist, fx "Grå".',
+          },
+        },
+      ],
     },
     {
       name: 'categories',
