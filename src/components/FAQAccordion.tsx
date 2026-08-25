@@ -24,7 +24,7 @@ export function FAQAccordion({ items }: { items: FAQItem[] }) {
               <button
                 aria-controls={panelId}
                 aria-expanded={isOpen}
-                className="group flex w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-1 py-5 text-left [font:inherit]"
+                className="group flex w-full cursor-pointer items-center justify-between gap-4 border-none bg-transparent px-1 py-5 text-left text-inherit [font:inherit]"
                 id={buttonId}
                 onClick={() => setOpenId(isOpen ? null : item.id)}
                 type="button"
