@@ -191,6 +191,22 @@ export interface Product {
   price: number;
   image?: (number | null) | Media;
   categories?: (number | Category)[] | null;
+  /**
+   * Fx farve, eller type hvis produktet er bestik (gaffel/ske/kniv). Hver gruppe vises som en dropdown på produktsiden.
+   */
+  variants?:
+    | {
+        /**
+         * Fx "Farve" eller "Type"
+         */
+        label: string;
+        options: {
+          value: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+      }[]
+    | null;
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -275,6 +291,10 @@ export interface Order {
           value: number | ProductBundle;
         };
     quantity: number;
+    /**
+     * Fx "Farve: Rød, Type: Gaffel"
+     */
+    selectedOptions?: string | null;
     id?: string | null;
   }[];
   updatedAt: string;
@@ -472,6 +492,18 @@ export interface ProductsSelect<T extends boolean = true> {
   price?: T;
   image?: T;
   categories?: T;
+  variants?:
+    | T
+    | {
+        label?: T;
+        options?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   active?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -529,6 +561,7 @@ export interface OrdersSelect<T extends boolean = true> {
     | {
         item?: T;
         quantity?: T;
+        selectedOptions?: T;
         id?: T;
       };
   updatedAt?: T;

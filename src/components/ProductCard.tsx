@@ -13,6 +13,7 @@ export function ProductCard({
   description,
   image,
   detailsHref,
+  hasVariants = false,
 }: {
   productId: number
   type: CartItemType
@@ -21,9 +22,12 @@ export function ProductCard({
   description?: string | null
   image?: { url: string; alt: string } | null
   detailsHref: string
+  hasVariants?: boolean
 }) {
   const buttonClass =
     'pointer-events-auto w-full cursor-pointer rounded border border-brand-navy bg-brand-navy px-3 py-2 text-center text-sm font-bold text-white no-underline transition-colors hover:border-brand-gold hover:bg-brand-gold disabled:cursor-default disabled:opacity-60 disabled:hover:border-brand-navy disabled:hover:bg-brand-navy'
+  const staticButtonClass =
+    'block w-full rounded border border-brand-navy bg-brand-navy px-3 py-2 text-center text-sm font-bold text-white'
 
   return (
     <div className="relative flex flex-col overflow-hidden rounded-lg border border-neutral-200">
@@ -46,7 +50,11 @@ export function ProductCard({
         </div>
         {description && <p className="m-0 text-sm">{description}</p>}
         <div className="mt-auto pt-3">
-          <AddToCartButton className={buttonClass} name={name} price={price} productId={productId} type={type} />
+          {hasVariants ? (
+            <span className={staticButtonClass}>Vælg muligheder</span>
+          ) : (
+            <AddToCartButton className={buttonClass} name={name} price={price} productId={productId} type={type} />
+          )}
         </div>
       </div>
     </div>

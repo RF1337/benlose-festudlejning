@@ -47,6 +47,38 @@ export const Products: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: 'variants',
+      type: 'array',
+      label: 'Valgmuligheder',
+      admin: {
+        description:
+          'Fx farve, eller type hvis produktet er bestik (gaffel/ske/kniv). Hver gruppe vises som en dropdown på produktsiden.',
+      },
+      fields: [
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Fx "Farve" eller "Type"',
+          },
+        },
+        {
+          name: 'options',
+          type: 'array',
+          required: true,
+          minRows: 1,
+          fields: [
+            {
+              name: 'value',
+              type: 'text',
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'active',
       type: 'checkbox',
       defaultValue: true,

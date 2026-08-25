@@ -71,6 +71,7 @@ export default async function UdlejningPage({
               <ProductCard
                 description={product.description}
                 detailsHref={`/udlejning/${product.slug}`}
+                hasVariants={Boolean(product.variants?.length)}
                 image={image?.url ? { url: image.url, alt: image.alt } : null}
                 key={product.id}
                 name={product.name}

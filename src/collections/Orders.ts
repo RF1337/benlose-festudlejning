@@ -49,6 +49,13 @@ export const Orders: CollectionConfig = {
           min: 1,
           defaultValue: 1,
         },
+        {
+          name: 'selectedOptions',
+          type: 'text',
+          admin: {
+            description: 'Fx "Farve: Rød, Type: Gaffel"',
+          },
+        },
       ],
     },
   ],

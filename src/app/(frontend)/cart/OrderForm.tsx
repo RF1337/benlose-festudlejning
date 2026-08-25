@@ -29,6 +29,7 @@ export function OrderForm({ onClose }: { onClose: () => void }) {
             productId: item.productId,
             type: item.type,
             quantity: item.quantity,
+            variants: item.variants,
           })),
         })
         setStatus('sent')

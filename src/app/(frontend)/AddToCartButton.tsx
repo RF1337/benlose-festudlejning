@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 
-import { CartItemType, useCart } from './cart/CartContext'
+import { CartItemType, SelectedVariant, useCart } from './cart/CartContext'
 
 export function AddToCartButton({
   productId,
@@ -10,6 +10,7 @@ export function AddToCartButton({
   name,
   price,
   quantity = 1,
+  variants,
   className,
 }: {
   productId: number
@@ -17,6 +18,7 @@ export function AddToCartButton({
   name: string
   price: number
   quantity?: number
+  variants?: SelectedVariant[]
   className?: string
 }) {
   const { addItem } = useCart()
@@ -29,7 +31,7 @@ export function AddToCartButton({
         'cursor-pointer rounded border border-brand-navy bg-brand-navy px-4 py-2 text-sm text-white transition-colors hover:border-brand-gold hover:bg-brand-gold disabled:cursor-default disabled:opacity-60 disabled:hover:border-brand-navy disabled:hover:bg-brand-navy'
       }
       onClick={() => {
-        addItem({ productId, type, name, price }, quantity)
+        addItem({ productId, type, name, price, variants }, quantity)
         setAdded(true)
         setTimeout(() => setAdded(false), 1500)
       }}

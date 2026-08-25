@@ -6,6 +6,7 @@ import config from '@/payload.config'
 import { formatPrice } from '@/utilities/formatPrice'
 
 type CartItemType = 'product' | 'bundle'
+type SelectedVariant = { label: string; value: string }
 
 type OrderInput = {
   customerName: string
@@ -13,8 +14,11 @@ type OrderInput = {
   customerPhone?: string
   eventDate?: string
   comment?: string
-  items: { productId: number; type: CartItemType; quantity: number }[]
+  items: { productId: number; type: CartItemType; quantity: number; variants?: SelectedVariant[] }[]
 }
+
+const formatVariants = (variants?: SelectedVariant[]) =>
+  variants && variants.length > 0 ? variants.map((v) => `${v.label}: ${v.value}`).join(', ') : undefined
 
 const BUSINESS_EMAIL = 'kontakt@benlose-festudlejning.dk'
 
@@ -42,15 +46,16 @@ export async function submitOrder(input: OrderInput) {
       items: input.items.map((item) => ({
         item: { relationTo: collectionForType(item.type), value: item.productId },
         quantity: item.quantity,
+        selectedOptions: formatVariants(item.variants),
       })),
     },
   })
 
   const lines = entries
-    .map(
-      (entry, i) =>
-        `${entry.name} x${input.items[i].quantity} — ${formatPrice(entry.price * input.items[i].quantity)}`,
-    )
+    .map((entry, i) => {
+      const variantText = formatVariants(input.items[i].variants)
+      return `${entry.name}${variantText ? ` (${variantText})` : ''} x${input.items[i].quantity} — ${formatPrice(entry.price * input.items[i].quantity)}`
+    })
     .join('<br>')
   const total = entries.reduce(
     (sum, entry, i) => sum + entry.price * input.items[i].quantity,
