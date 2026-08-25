@@ -30,7 +30,12 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
   const goTo = (i: number) => setIndex((i + slides.length) % slides.length)
 
   return (
-    <div className="relative h-dvh w-full overflow-hidden bg-neutral-900">
+    // -mt-[136px] cancels out the sticky header's reserved height (measured, not
+    // responsive) so this sits behind the header at the true top of the page, making
+    // h-dvh below fill exactly one viewport instead of one-viewport-plus-header. Uses
+    // a raw px value (not a spacing-scale step) because this project's root font-size
+    // is 18px, not Tailwind's assumed 16px, so rem-based steps land at the wrong px.
+    <div className="relative -mt-[136px] h-dvh w-full overflow-hidden bg-neutral-900">
       {slides.map((slide, i) => (
         <div
           className="absolute inset-0 opacity-0 transition-opacity duration-1200 ease-in-out"
