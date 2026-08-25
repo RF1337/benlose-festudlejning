@@ -44,7 +44,7 @@ export function OrderForm({ onClose }: { onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-30 flex items-center justify-center bg-black/40 p-6"
+      className="fixed inset-0 z-95 flex items-center justify-center bg-black/40 p-6"
       onClick={onClose}
     >
       <div
