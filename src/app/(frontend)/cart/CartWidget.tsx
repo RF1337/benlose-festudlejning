@@ -1,16 +1,15 @@
 'use client'
 
 import { ShoppingBasket, X } from 'lucide-react'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 import { useCart } from './CartContext'
-import { OrderForm } from './OrderForm'
 import { formatPrice } from '@/utilities/formatPrice'
 
 export function CartWidget() {
   const { items, itemCount, removeItem, updateQuantity } = useCart()
   const [open, setOpen] = useState(false)
-  const [showForm, setShowForm] = useState(false)
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
@@ -120,21 +119,16 @@ export function CartWidget() {
         {items.length > 0 && (
           <div className="border-t border-neutral-200 p-4">
             <p className="mb-3 font-bold">I alt: {formatPrice(total)}</p>
-            <button
-              className="w-full cursor-pointer rounded border-none bg-brand-navy py-2.5 font-bold text-white transition-colors hover:bg-brand-gold"
-              onClick={() => {
-                setShowForm(true)
-                setOpen(false)
-              }}
-              type="button"
+            <Link
+              className="block w-full cursor-pointer rounded border-none bg-brand-navy py-2.5 text-center font-bold text-white no-underline transition-colors hover:bg-brand-gold"
+              href="/checkout"
+              onClick={() => setOpen(false)}
             >
               Gennemfør bestilling
-            </button>
+            </Link>
           </div>
         )}
       </div>
-
-      {showForm && <OrderForm onClose={() => setShowForm(false)} />}
     </div>
   )
 }

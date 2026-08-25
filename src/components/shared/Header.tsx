@@ -25,7 +25,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white text-brand-navy shadow-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3 sm:px-10">
         <Link href="/" className="shrink-0">
-          <Image alt="Benløse Festudlejning" className="h-14 w-auto" priority src={logo} />
+          <Image alt="Benløse Festudlejning" className="h-24 w-auto" priority src={logo} />
         </Link>
 
         <nav className="hidden items-center gap-8 sm:flex">

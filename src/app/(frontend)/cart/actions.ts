@@ -1,31 +1,68 @@
 'use server'
 
 import { getPayload } from 'payload'
+import { z } from 'zod'
 
 import config from '@/payload.config'
 import { formatPrice } from '@/utilities/formatPrice'
 
-type CartItemType = 'product' | 'bundle'
-type SelectedVariant = { label: string; value: string }
+const addressSchema = z.object({
+  street: z.string().min(1),
+  postalCode: z.string().min(1),
+  city: z.string().min(1),
+  country: z.string().min(1),
+})
 
-type OrderInput = {
-  customerName: string
-  customerEmail: string
-  customerPhone?: string
-  eventDate?: string
-  comment?: string
-  items: { productId: number; type: CartItemType; quantity: number; variants?: SelectedVariant[] }[]
-}
+const orderInputSchema = z.object({
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  companyName: z.string().optional(),
+  customerEmail: z.email(),
+  customerPhone: z.string().min(1),
+  deliveryMethod: z.enum(['pickup', 'delivery']),
+  deliveryAddress: addressSchema,
+  billingSameAsDelivery: z.boolean(),
+  billingAddress: z
+    .object({
+      companyName: z.string().optional(),
+      name: z.string().min(1),
+      street: z.string().min(1),
+      postalCode: z.string().min(1),
+      city: z.string().min(1),
+      country: z.string().min(1),
+    })
+    .optional(),
+  comment: z.string().min(1),
+  termsAccepted: z.literal(true),
+  items: z
+    .object({
+      productId: z.number(),
+      type: z.enum(['product', 'bundle']),
+      quantity: z.number().min(1),
+      variants: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
+    })
+    .array()
+    .min(1),
+})
 
-const formatVariants = (variants?: SelectedVariant[]) =>
+export type OrderInput = z.infer<typeof orderInputSchema>
+
+const formatVariants = (variants?: { label: string; value: string }[]) =>
   variants && variants.length > 0 ? variants.map((v) => `${v.label}: ${v.value}`).join(', ') : undefined
 
 const BUSINESS_EMAIL = 'kontakt@benlose-festudlejning.dk'
 
-const collectionForType = (type: CartItemType) =>
+// TEST MODE: while the site is still in development, route every order email to a single
+// test inbox instead of the real customer/business addresses. Set to false to go live.
+const TEST_MODE = true
+const TEST_EMAIL = 'rasmusferst@gmail.com'
+
+const collectionForType = (type: 'product' | 'bundle') =>
   type === 'bundle' ? ('product-bundles' as const) : ('products' as const)
 
-export async function submitOrder(input: OrderInput) {
+export async function submitOrder(rawInput: OrderInput) {
+  const input = orderInputSchema.parse(rawInput)
+
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
@@ -35,13 +72,20 @@ export async function submitOrder(input: OrderInput) {
     ),
   )
 
+  const customerName = `${input.firstName} ${input.lastName}`.trim()
+
   await payload.create({
     collection: 'orders',
     data: {
-      customerName: input.customerName,
+      customerName,
       customerEmail: input.customerEmail,
       customerPhone: input.customerPhone,
-      eventDate: input.eventDate,
+      companyName: input.companyName,
+      deliveryMethod: input.deliveryMethod,
+      deliveryAddress: input.deliveryAddress,
+      billingSameAsDelivery: input.billingSameAsDelivery,
+      billingAddress: input.billingSameAsDelivery ? undefined : input.billingAddress,
+      termsAccepted: input.termsAccepted,
       comment: input.comment,
       items: input.items.map((item) => ({
         item: { relationTo: collectionForType(item.type), value: item.productId },
@@ -61,26 +105,31 @@ export async function submitOrder(input: OrderInput) {
     (sum, entry, i) => sum + entry.price * input.items[i].quantity,
     0,
   )
+  const deliveryLine =
+    input.deliveryMethod === 'pickup'
+      ? 'Afhentning i butikken (Byskovvej 9, Ringsted, 4100)'
+      : `Levering til: ${input.deliveryAddress.street}, ${input.deliveryAddress.postalCode} ${input.deliveryAddress.city}`
   const details = `
     <p>${lines}</p>
     <p><strong>I alt: ${formatPrice(total)}</strong></p>
-    ${input.eventDate ? `<p>Dato for arrangement: ${input.eventDate}</p>` : ''}
-    ${input.comment ? `<p>Kommentar: ${input.comment}</p>` : ''}
+    <p>Levering: ${deliveryLine}</p>
+    <p>Kommentar: ${input.comment}</p>
   `
 
+  const testNote = (realTo: string) =>
+    TEST_MODE ? `<p><strong>[TEST] Ville normalt være sendt til: ${realTo}</strong></p>` : ''
+
   await payload.sendEmail({
-    to: input.customerEmail,
-    subject: 'Din bestilling hos Benløse Festudlejning',
-    html: `<p>Tak for din bestilling, ${input.customerName}!</p>${details}`,
+    to: TEST_MODE ? TEST_EMAIL : input.customerEmail,
+    subject: `${TEST_MODE ? '[TEST] ' : ''}Din bestilling hos Benløse Festudlejning`,
+    html: `${testNote(input.customerEmail)}<p>Tak for din bestilling, ${customerName}!</p>${details}`,
   })
 
   try {
     await payload.sendEmail({
-      to: BUSINESS_EMAIL,
-      subject: `Ny bestilling fra ${input.customerName}`,
-      html: `<p>${input.customerName} (${input.customerEmail}${
-        input.customerPhone ? `, ${input.customerPhone}` : ''
-      }) har bestilt:</p>${details}`,
+      to: TEST_MODE ? TEST_EMAIL : BUSINESS_EMAIL,
+      subject: `${TEST_MODE ? '[TEST] ' : ''}Ny bestilling fra ${customerName}`,
+      html: `${testNote(BUSINESS_EMAIL)}<p>${customerName} (${input.customerEmail}, ${input.customerPhone}) har bestilt:</p>${details}`,
     })
   } catch (err) {
     console.error('Failed to send order notification to business email:', err)

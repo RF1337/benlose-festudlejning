@@ -53,7 +53,14 @@ export default function Footer() {
               Facebook
             </a>
             <br />
-            Instagram
+            <a
+              href="https://www.instagram.com/benlosefestudlejning/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline text-brand-gold transition hover:text-white"
+            >
+              Instagram
+            </a>
           </p>
         </div>
       </div>
