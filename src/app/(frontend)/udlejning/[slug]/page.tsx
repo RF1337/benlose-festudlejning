@@ -53,7 +53,7 @@ export default async function ProductDetailPage({
   const breadcrumbs: Crumb[] = [
     { label: 'Forside', href: '/' },
     { label: 'Udlejning', href: '/udlejning' },
-    ...chain.map((c) => ({ label: c.name, href: `/udlejning?category=${c.id}` })),
+    ...chain.map((c) => ({ label: c.name, href: `/udlejning?category=${c.slug}` })),
     { label: product.name },
   ]
 
