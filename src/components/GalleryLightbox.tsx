@@ -86,37 +86,40 @@ export function GalleryLightbox({ images }: { images: GalleryImage[] }) {
           </button>
 
           <div
-            className="relative h-full max-h-[85vh] w-full max-w-5xl"
+            className="flex h-full max-h-[85vh] w-full max-w-6xl items-center gap-3"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              alt={current.alt}
-              className="object-contain"
-              fill
-              priority
-              sizes="90vw"
-              src={current.url}
-            />
+            {images.length > 1 && (
+              <button
+                aria-label="Forrige billede"
+                className={`${iconButtonClass} shrink-0`}
+                onClick={() => goTo(openIndex! - 1)}
+                type="button"
+              >
+                <ChevronIcon direction="left" />
+              </button>
+            )}
+
+            <div className="relative h-full min-w-0 flex-1">
+              <Image
+                alt={current.alt}
+                className="object-contain"
+                fill
+                priority
+                sizes="90vw"
+                src={current.url}
+              />
+            </div>
 
             {images.length > 1 && (
-              <>
-                <button
-                  aria-label="Forrige billede"
-                  className={`${iconButtonClass} absolute left-2 top-1/2 -translate-y-1/2`}
-                  onClick={() => goTo(openIndex! - 1)}
-                  type="button"
-                >
-                  <ChevronIcon direction="left" />
-                </button>
-                <button
-                  aria-label="Næste billede"
-                  className={`${iconButtonClass} absolute right-2 top-1/2 -translate-y-1/2`}
-                  onClick={() => goTo(openIndex! + 1)}
-                  type="button"
-                >
-                  <ChevronIcon direction="right" />
-                </button>
-              </>
+              <button
+                aria-label="Næste billede"
+                className={`${iconButtonClass} shrink-0`}
+                onClick={() => goTo(openIndex! + 1)}
+                type="button"
+              >
+                <ChevronIcon direction="right" />
+              </button>
             )}
           </div>
 
