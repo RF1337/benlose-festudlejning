@@ -228,6 +228,14 @@ export interface Product {
    */
   relatedProducts?: (number | Product)[] | null;
   active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -247,6 +255,14 @@ export interface Category {
    */
   parent?: (number | null) | Category;
   active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -263,6 +279,14 @@ export interface ProductBundle {
   products: (number | Product)[];
   price: number;
   active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -289,6 +313,14 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -301,6 +333,24 @@ export interface Order {
   customerName: string;
   customerEmail: string;
   customerPhone?: string | null;
+  companyName?: string | null;
+  deliveryMethod?: ('pickup' | 'delivery') | null;
+  deliveryAddress?: {
+    street?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+    country?: string | null;
+  };
+  billingSameAsDelivery?: boolean | null;
+  billingAddress?: {
+    companyName?: string | null;
+    name?: string | null;
+    street?: string | null;
+    postalCode?: string | null;
+    city?: string | null;
+    country?: string | null;
+  };
+  termsAccepted?: boolean | null;
   eventDate?: string | null;
   comment?: string | null;
   items: {
@@ -536,6 +586,13 @@ export interface ProductsSelect<T extends boolean = true> {
       };
   relatedProducts?: T;
   active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -551,6 +608,13 @@ export interface ProductBundlesSelect<T extends boolean = true> {
   products?: T;
   price?: T;
   active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -563,6 +627,13 @@ export interface CategoriesSelect<T extends boolean = true> {
   slug?: T;
   parent?: T;
   active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -574,6 +645,13 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -585,6 +663,28 @@ export interface OrdersSelect<T extends boolean = true> {
   customerName?: T;
   customerEmail?: T;
   customerPhone?: T;
+  companyName?: T;
+  deliveryMethod?: T;
+  deliveryAddress?:
+    | T
+    | {
+        street?: T;
+        postalCode?: T;
+        city?: T;
+        country?: T;
+      };
+  billingSameAsDelivery?: T;
+  billingAddress?:
+    | T
+    | {
+        companyName?: T;
+        name?: T;
+        street?: T;
+        postalCode?: T;
+        city?: T;
+        country?: T;
+      };
+  termsAccepted?: T;
   eventDate?: T;
   comment?: T;
   items?:
@@ -687,6 +787,14 @@ export interface Home {
     };
     [k: string]: unknown;
   } | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -696,6 +804,13 @@ export interface Home {
  */
 export interface HomeSelect<T extends boolean = true> {
   introduction?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

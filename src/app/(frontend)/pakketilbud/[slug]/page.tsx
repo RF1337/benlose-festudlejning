@@ -2,19 +2,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
+import { cache } from 'react'
+import type { Metadata } from 'next'
 import React from 'react'
 
 import config from '@/payload.config'
 import { QuantityAddToCart } from '@/components/QuantityAddToCart'
+import { ProductJsonLd } from '@/components/StructuredData'
 import { formatPrice } from '@/utilities/formatPrice'
+import { absoluteUrl, DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, truncate } from '@/utilities/seo'
 import '../../styles.css'
 
-export default async function BundleDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  const { slug } = await params
+const getBundle = cache(async (slug: string) => {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
@@ -25,7 +24,47 @@ export default async function BundleDetailPage({
     depth: 1,
   })
 
-  const bundle = docs[0]
+  return docs[0]
+})
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const bundle = await getBundle(slug)
+  if (!bundle || !bundle.active) return {}
+
+  const title = bundle.meta?.title || `${bundle.name} | ${SITE_NAME}`
+  const description =
+    bundle.meta?.description ||
+    (bundle.description ? truncate(bundle.description, 155) : DEFAULT_DESCRIPTION)
+  const image = typeof bundle.meta?.image === 'object' ? bundle.meta.image : null
+  const fallbackImage = typeof bundle.image === 'object' ? bundle.image : null
+  const ogImageUrl = image?.url || fallbackImage?.url
+  const ogImage = ogImageUrl ? { url: ogImageUrl, alt: bundle.name } : DEFAULT_OG_IMAGE
+
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/pakketilbud/${bundle.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/pakketilbud/${bundle.slug}`,
+      images: [ogImage],
+    },
+  }
+}
+
+export default async function BundleDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const bundle = await getBundle(slug)
   if (!bundle || !bundle.active) notFound()
 
   const image = typeof bundle.image === 'object' ? bundle.image : null
@@ -33,6 +72,13 @@ export default async function BundleDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
+      <ProductJsonLd
+        description={bundle.description}
+        image={image?.url ? absoluteUrl(image.url) : null}
+        name={bundle.name}
+        price={bundle.price}
+        url={`/pakketilbud/${bundle.slug}`}
+      />
       <Link className="no-underline" href="/pakketilbud">
         ← Tilbage til pakketilbud
       </Link>

@@ -1,28 +1,20 @@
 import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
+import { cache } from 'react'
+import type { Metadata } from 'next'
 import React from 'react'
 
 import config from '@/payload.config'
 import { ProductPurchase } from '@/components/ProductPurchase'
 import { ProductCard } from '@/components/ProductCard'
 import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs'
-import type { Category, Product } from '@/payload-types'
+import { BreadcrumbListJsonLd, ProductJsonLd } from '@/components/StructuredData'
+import type { Product } from '@/payload-types'
+import { categoryChain } from '@/utilities/categories'
+import { absoluteUrl, DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, truncate } from '@/utilities/seo'
 import '../../styles.css'
 
-function categoryChain(categoryId: number, byId: Map<number, Category>): Category[] {
-  const category = byId.get(categoryId)
-  if (!category) return []
-  const parentId = category.parent ? (typeof category.parent === 'object' ? category.parent.id : category.parent) : null
-  const parents = parentId ? categoryChain(parentId, byId) : []
-  return [...parents, category]
-}
-
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  const { slug } = await params
+const getProduct = cache(async (slug: string) => {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
@@ -36,7 +28,48 @@ export default async function ProductDetailPage({
     payload.find({ collection: 'categories', depth: 0, limit: 0 }),
   ])
 
-  const product = docs[0]
+  return { product: docs[0], categories }
+})
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const { product } = await getProduct(slug)
+  if (!product || !product.active) return {}
+
+  const title = product.meta?.title || `${product.name} | ${SITE_NAME}`
+  const description =
+    product.meta?.description ||
+    (product.description ? truncate(product.description, 155) : DEFAULT_DESCRIPTION)
+  const image = typeof product.meta?.image === 'object' ? product.meta.image : null
+  const fallbackImage = typeof product.image === 'object' ? product.image : null
+  const ogImageUrl = image?.url || fallbackImage?.url
+  const ogImage = ogImageUrl ? { url: ogImageUrl, alt: product.name } : DEFAULT_OG_IMAGE
+
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/udlejning/${product.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/udlejning/${product.slug}`,
+      images: [ogImage],
+    },
+  }
+}
+
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const { product, categories } = await getProduct(slug)
+
   if (!product || !product.active) notFound()
 
   const mainImage = typeof product.image === 'object' ? product.image : null
@@ -63,7 +96,7 @@ export default async function ProductDetailPage({
   const breadcrumbs: Crumb[] = [
     { label: 'Forside', href: '/' },
     { label: 'Udlejning', href: '/udlejning' },
-    ...chain.map((c) => ({ label: c.name, href: `/udlejning?category=${c.slug}` })),
+    ...chain.map((c) => ({ label: c.name, href: `/udlejning/kategori/${c.slug}` })),
     { label: product.name },
   ]
 
@@ -73,6 +106,21 @@ export default async function ProductDetailPage({
 
   return (
     <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
+      <BreadcrumbListJsonLd
+        items={[
+          { name: 'Forside', url: '/' },
+          { name: 'Udlejning', url: '/udlejning' },
+          ...chain.map((c) => ({ name: c.name, url: `/udlejning/kategori/${c.slug}` })),
+          { name: product.name, url: `/udlejning/${product.slug}` },
+        ]}
+      />
+      <ProductJsonLd
+        description={product.description}
+        image={mainImage?.url ? absoluteUrl(mainImage.url) : null}
+        name={product.name}
+        price={product.price}
+        url={`/udlejning/${product.slug}`}
+      />
       <Breadcrumbs items={breadcrumbs} />
       <div className="mt-6 grid gap-8 sm:grid-cols-2">
         <ProductPurchase

@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import React from 'react'
 
 import config from '@/payload.config'
@@ -8,7 +9,26 @@ import { HeroCarousel } from '@/components/shared/HeroCarousel'
 import FeaturedPackages from '@/components/FeaturedPackages'
 import PartyGallery from '@/components/PartyGallery'
 import FAQSection from '@/components/FAQ'
+import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, DEFAULT_TITLE } from '@/utilities/seo'
 import './styles.css'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const payloadConfig = await config
+  const payload = await getPayload({ config: payloadConfig })
+  const home = await payload.findGlobal({ slug: 'home' })
+
+  const title = home.meta?.title || DEFAULT_TITLE
+  const description = home.meta?.description || DEFAULT_DESCRIPTION
+  const homeImage = typeof home.meta?.image === 'object' ? home.meta.image : null
+  const ogImage = homeImage?.url ? { url: homeImage.url, alt: title } : DEFAULT_OG_IMAGE
+
+  return {
+    title: { absolute: title },
+    description,
+    alternates: { canonical: '/' },
+    openGraph: { title, description, url: '/', images: [ogImage] },
+  }
+}
 
 const facebookPageUrl = 'https://www.facebook.com/people/Benløse-festudlejning/100057412061116/'
 const facebookEmbedSrc = `https://www.facebook.com/plugins/page.php?href=${encodeURIComponent(

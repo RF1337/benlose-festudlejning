@@ -1,9 +1,22 @@
 import { getPayload } from 'payload'
+import type { Metadata } from 'next'
 import React from 'react'
 
 import config from '@/payload.config'
 import { GalleryLightbox } from '@/components/GalleryLightbox'
+import { DEFAULT_OG_IMAGE } from '@/utilities/seo'
 import '../styles.css'
+
+const title = 'Galleri – billeder fra fester med Benløse Festudlejning'
+const description =
+  'Se billeder af festtelte, borde og opsætninger fra tidligere fester og arrangementer leveret af Benløse Festudlejning i Ringsted og på Sjælland.'
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: '/galleri' },
+  openGraph: { title, description, url: '/galleri', images: [DEFAULT_OG_IMAGE] },
+}
 
 export default async function GalleriPage() {
   const payloadConfig = await config

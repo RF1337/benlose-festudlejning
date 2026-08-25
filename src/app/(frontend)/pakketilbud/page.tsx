@@ -1,9 +1,22 @@
 import { getPayload } from 'payload'
+import type { Metadata } from 'next'
 import React from 'react'
 
 import config from '@/payload.config'
 import { ProductCard } from '@/components/ProductCard'
+import { DEFAULT_OG_IMAGE } from '@/utilities/seo'
 import '../styles.css'
+
+const title = 'Pakketilbud til fest og fejring'
+const description =
+  'Se vores pakketilbud med festtelt, borde, stole og udstyr samlet i én løsning. Levering og opsætning i Ringsted og på hele Sjælland.'
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: { canonical: '/pakketilbud' },
+  openGraph: { title, description, url: '/pakketilbud', images: [DEFAULT_OG_IMAGE] },
+}
 
 export default async function PakketilbudPage() {
   const payloadConfig = await config
