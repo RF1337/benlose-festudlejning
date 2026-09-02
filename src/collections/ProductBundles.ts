@@ -33,13 +33,47 @@ export const ProductBundles: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
+      admin: {
+        description: 'Hovedbillede. Vises som udgangspunkt på pakkesiden og i lister.',
+      },
     },
     {
-      name: 'products',
-      type: 'relationship',
-      relationTo: 'products',
-      hasMany: true,
+      name: 'gallery',
+      type: 'array',
+      label: 'Ekstra billeder',
+      admin: {
+        description: 'Andre billeder af pakken.',
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'productItems',
+      type: 'array',
+      label: 'Produkter i pakken',
       required: true,
+      minRows: 1,
+      fields: [
+        {
+          name: 'product',
+          type: 'relationship',
+          relationTo: 'products',
+          required: true,
+        },
+        {
+          name: 'quantity',
+          type: 'number',
+          required: true,
+          min: 1,
+          defaultValue: 1,
+        },
+      ],
     },
     {
       name: 'price',

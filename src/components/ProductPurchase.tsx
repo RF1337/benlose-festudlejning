@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 
 import { ProductGallery, type GalleryPhoto } from './ProductGallery'
 import { QuantityAddToCart, type VariantGroup } from './QuantityAddToCart'
@@ -15,6 +15,7 @@ export function ProductPurchase({
   description,
   images,
   variantGroups = [],
+  children,
 }: {
   productId: number
   type: CartItemType
@@ -23,6 +24,7 @@ export function ProductPurchase({
   description?: string | null
   images: GalleryPhoto[]
   variantGroups?: VariantGroup[]
+  children?: ReactNode
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const [selected, setSelected] = useState<Record<string, string>>(() =>
@@ -43,6 +45,7 @@ export function ProductPurchase({
         <h1 className="m-0">{name}</h1>
         <p className="mb-2 font-bold">{formatPrice(price)}</p>
         {description && <p>{description}</p>}
+        {children}
         <QuantityAddToCart
           name={name}
           onVariantChange={(label, value) => setSelected((prev) => ({ ...prev, [label]: value }))}

@@ -275,8 +275,24 @@ export interface ProductBundle {
   name: string;
   slug: string;
   description?: string | null;
+  /**
+   * Hovedbillede. Vises som udgangspunkt på pakkesiden og i lister.
+   */
   image?: (number | null) | Media;
-  products: (number | Product)[];
+  /**
+   * Andre billeder af pakken.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  productItems: {
+    product: number | Product;
+    quantity: number;
+    id?: string | null;
+  }[];
   price: number;
   active?: boolean | null;
   meta?: {
@@ -605,7 +621,19 @@ export interface ProductBundlesSelect<T extends boolean = true> {
   slug?: T;
   description?: T;
   image?: T;
-  products?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  productItems?:
+    | T
+    | {
+        product?: T;
+        quantity?: T;
+        id?: T;
+      };
   price?: T;
   active?: T;
   meta?:
