@@ -22,6 +22,7 @@ export function ProductListing({
   products,
   q,
   selectedCategorySlug = null,
+  sort,
   totalPages,
 }: {
   basePath: string
@@ -31,6 +32,7 @@ export function ProductListing({
   products: Product[]
   q?: string
   selectedCategorySlug?: string | null
+  sort?: string
   totalPages: number
 }) {
   return (
@@ -68,7 +70,7 @@ export function ProductListing({
           {page > 1 ? (
             <Link
               className="rounded border border-neutral-200 px-4 py-2 text-sm font-medium no-underline transition-colors hover:border-brand-gold"
-              href={buildHref(basePath, { q, page: String(page - 1) })}
+              href={buildHref(basePath, { q, page: String(page - 1), sort: sort === 'name' ? undefined : sort })}
             >
               Forrige
             </Link>
@@ -83,7 +85,7 @@ export function ProductListing({
           {page < totalPages ? (
             <Link
               className="rounded border border-neutral-200 px-4 py-2 text-sm font-medium no-underline transition-colors hover:border-brand-gold"
-              href={buildHref(basePath, { q, page: String(page + 1) })}
+              href={buildHref(basePath, { q, page: String(page + 1), sort: sort === 'name' ? undefined : sort })}
             >
               Næste
             </Link>

@@ -11,6 +11,7 @@ import { ProductListing } from '@/components/ProductListing'
 import { BreadcrumbListJsonLd } from '@/components/StructuredData'
 import { categoryChain, descendantIds, parentId } from '@/utilities/categories'
 import { DEFAULT_OG_IMAGE, SITE_NAME, truncate } from '@/utilities/seo'
+import { parseProductSort } from '@/utilities/sort'
 import '../../../styles.css'
 
 const PAGE_SIZE = 12
@@ -67,11 +68,12 @@ export default async function CategoryPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ q?: string; page?: string }>
+  searchParams: Promise<{ page?: string; q?: string; sort?: string }>
 }) {
   const { slug } = await params
-  const { q, page: pageParam } = await searchParams
+  const { q, page: pageParam, sort: sortParam } = await searchParams
   const page = Math.max(1, Number(pageParam) || 1)
+  const sort = parseProductSort(sortParam)
 
   const categories = await getCategories()
   const category = categories.find((c) => c.slug === slug)
@@ -91,7 +93,7 @@ export default async function CategoryPage({
     where,
     limit: PAGE_SIZE,
     page,
-    sort: 'name',
+    sort,
     depth: 1,
   })
 
@@ -126,6 +128,7 @@ export default async function CategoryPage({
         products={products}
         q={q}
         selectedCategorySlug={slug}
+        sort={sort}
         totalPages={totalPages}
       />
     </div>

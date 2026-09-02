@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { AddToCartButton } from '@/app/(frontend)/AddToCartButton'
 import type { CartItemType } from '@/app/(frontend)/cart/CartContext'
+import { Select } from '@/components/Select'
 
 export type VariantGroup = { label: string; options: string[] }
 
@@ -38,8 +39,7 @@ export function QuantityAddToCart({
 
   const stepButtonClass =
     'h-9 w-9 cursor-pointer rounded border border-neutral-200 bg-white text-lg'
-  const selectClass =
-    'rounded border border-neutral-200 bg-white px-3 py-2 text-sm [font:inherit] cursor-pointer'
+  const selectClass = 'rounded border border-neutral-200 py-2 pl-3 text-sm [font:inherit] cursor-pointer'
 
   const variants = variantGroups.map((group) => ({ label: group.label, value: selected[group.label] }))
 
@@ -50,7 +50,7 @@ export function QuantityAddToCart({
           {variantGroups.map((group) => (
             <label className="flex flex-col gap-1 text-sm" key={group.label}>
               {group.label}
-              <select
+              <Select
                 className={selectClass}
                 onChange={(e) => setVariant(group.label, e.target.value)}
                 value={selected[group.label]}
@@ -60,7 +60,7 @@ export function QuantityAddToCart({
                     {option}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           ))}
         </div>

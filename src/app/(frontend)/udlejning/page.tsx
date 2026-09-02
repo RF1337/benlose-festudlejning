@@ -7,6 +7,7 @@ import config from '@/payload.config'
 import { ProductListing } from '@/components/ProductListing'
 import { parentId } from '@/utilities/categories'
 import { DEFAULT_OG_IMAGE } from '@/utilities/seo'
+import { parseProductSort } from '@/utilities/sort'
 import '../styles.css'
 
 const PAGE_SIZE = 12
@@ -36,10 +37,11 @@ export async function generateMetadata({
 export default async function UdlejningPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string }>
+  searchParams: Promise<{ page?: string; q?: string; sort?: string }>
 }) {
-  const { q, page: pageParam } = await searchParams
+  const { q, page: pageParam, sort: sortParam } = await searchParams
   const page = Math.max(1, Number(pageParam) || 1)
+  const sort = parseProductSort(sortParam)
 
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
@@ -60,7 +62,7 @@ export default async function UdlejningPage({
     where,
     limit: PAGE_SIZE,
     page,
-    sort: 'name',
+    sort,
     depth: 1,
   })
 
@@ -74,6 +76,7 @@ export default async function UdlejningPage({
         page={page}
         products={products}
         q={q}
+        sort={sort}
         totalPages={totalPages}
       />
     </div>
