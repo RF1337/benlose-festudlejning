@@ -71,7 +71,9 @@ export default function Footer() {
             &copy; {year} Benløse Festudlejning. Alle rettigheder forbeholdes.
           </p>
           <p className="flex items-center gap-2">
-            <span>Privatlivspolitik</span>
+            <Link href="/privatlivspolitik" className="transition hover:text-brand-gold">
+              Privatlivspolitik
+            </Link>
             <span aria-hidden="true">|</span>
             <Link href="/lejebetingelser" className="transition hover:text-brand-gold">
               Vilkår og betingelser
