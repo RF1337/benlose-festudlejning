@@ -15,6 +15,9 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Alt-tekst til billedet. Bruges for tilgængelighed og vises hvis billedet ikke kan indlæses.',
+      },
     },
   ],
   upload: true,

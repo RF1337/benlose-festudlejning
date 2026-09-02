@@ -20,7 +20,7 @@ export const GalleryImages: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'Used as the image alt text and as a caption in the gallery.',
+        description: 'Bruges som billedets alt-tekst og som billedtekst i galleriet.',
       },
     },
     {
@@ -28,13 +28,16 @@ export const GalleryImages: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       required: true,
+      admin: {
+        description: 'Billedet, der vises i galleriet.',
+      },
     },
     {
       name: 'showInHero',
       type: 'checkbox',
       defaultValue: false,
       admin: {
-        description: 'Include this image in the rotating hero on the front page.',
+        description: 'Inkluder dette billede i det roterende hero-billede på forsiden.',
       },
     },
     {
@@ -42,13 +45,16 @@ export const GalleryImages: CollectionConfig = {
       type: 'number',
       defaultValue: 0,
       admin: {
-        description: 'Lower numbers appear first, both in the hero rotation and the gallery.',
+        description: 'Lavere tal vises først, både i hero-rotationen og galleriet.',
       },
     },
     {
       name: 'active',
       type: 'checkbox',
       defaultValue: true,
+      admin: {
+        description: 'Bestem om billedet vises på hjemmesiden.',
+      },
     },
   ],
   defaultSort: 'order',

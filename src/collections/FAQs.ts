@@ -19,24 +19,33 @@ export const FAQs: CollectionConfig = {
       name: 'question',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Spørgsmålet, som det vises i FAQ-listen.',
+      },
     },
     {
       name: 'answer',
       type: 'textarea',
       required: true,
+      admin: {
+        description: 'Svaret, der vises når spørgsmålet foldes ud.',
+      },
     },
     {
       name: 'order',
       type: 'number',
       defaultValue: 0,
       admin: {
-        description: 'Lower numbers appear first.',
+        description: 'Lavere tal vises først.',
       },
     },
     {
       name: 'active',
       type: 'checkbox',
       defaultValue: true,
+      admin: {
+        description: 'Bestem om spørgsmålet vises på hjemmesiden.',
+      },
     },
   ],
   defaultSort: 'order',

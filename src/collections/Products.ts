@@ -18,22 +18,34 @@ export const Products: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Produktets navn, som det vises på hjemmesiden.',
+      },
     },
     {
       name: 'slug',
       type: 'text',
       required: true,
       unique: true,
+      admin: {
+        description: 'Bruges i URL\'en, fx "plastikstol" giver /udlejning/plastikstol.',
+      },
     },
     {
       name: 'description',
       type: 'textarea',
+      admin: {
+        description: 'Kort beskrivelse af produktet, vises på produktsiden.',
+      },
     },
     {
       name: 'price',
       type: 'number',
       required: true,
       min: 0,
+      admin: {
+        description: 'Produktets pris pr. stk. i kr.',
+      },
     },
     {
       name: 'image',
@@ -72,6 +84,9 @@ export const Products: CollectionConfig = {
       type: 'relationship',
       relationTo: 'categories',
       hasMany: true,
+      admin: {
+        description: 'De kategorier produktet vises under.',
+      },
     },
     {
       name: 'variants',
@@ -100,6 +115,9 @@ export const Products: CollectionConfig = {
               name: 'value',
               type: 'text',
               required: true,
+              admin: {
+                description: 'Fx "Rød" eller "Gaffel".',
+              },
             },
           ],
         },
@@ -120,6 +138,9 @@ export const Products: CollectionConfig = {
       name: 'active',
       type: 'checkbox',
       defaultValue: true,
+      admin: {
+        description: 'Bestem om produktet er synligt og kan bestilles på hjemmesiden.',
+      },
     },
   ],
 }

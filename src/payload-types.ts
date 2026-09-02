@@ -166,6 +166,9 @@ export interface User {
  */
 export interface Media {
   id: number;
+  /**
+   * Alt-tekst til billedet. Bruges for tilgængelighed og vises hvis billedet ikke kan indlæses.
+   */
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -185,9 +188,21 @@ export interface Media {
  */
 export interface Product {
   id: number;
+  /**
+   * Produktets navn, som det vises på hjemmesiden.
+   */
   name: string;
+  /**
+   * Bruges i URL'en, fx "plastikstol" giver /udlejning/plastikstol.
+   */
   slug: string;
+  /**
+   * Kort beskrivelse af produktet, vises på produktsiden.
+   */
   description?: string | null;
+  /**
+   * Produktets pris pr. stk. i kr.
+   */
   price: number;
   /**
    * Hovedbillede. Vises som udgangspunkt på produktsiden og i lister.
@@ -206,6 +221,9 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * De kategorier produktet vises under.
+   */
   categories?: (number | Category)[] | null;
   /**
    * Fx farve, eller type hvis produktet er bestik (gaffel/ske/kniv). Hver gruppe vises som en dropdown på produktsiden.
@@ -217,6 +235,9 @@ export interface Product {
          */
         label: string;
         options: {
+          /**
+           * Fx "Rød" eller "Gaffel".
+           */
           value: string;
           id?: string | null;
         }[];
@@ -227,6 +248,9 @@ export interface Product {
    * Vises som "Måske synes du også om" nederst på produktsiden.
    */
   relatedProducts?: (number | Product)[] | null;
+  /**
+   * Bestem om produktet er synligt og kan bestilles på hjemmesiden.
+   */
   active?: boolean | null;
   meta?: {
     title?: string | null;
@@ -245,15 +269,21 @@ export interface Product {
  */
 export interface Category {
   id: number;
+  /**
+   * Kategoriens navn, som det vises på hjemmesiden.
+   */
   name: string;
   /**
    * Skal være unik på tværs af ALLE kategorier, ikke kun søskende-kategorier. Hvis navnet allerede findes i en anden gruppe (fx "Plastik" under både Stole og Bestik), så gør sluggen tydelig, fx "stole-plastik" og "bestik-plastik".
    */
   slug: string;
   /**
-   * Leave empty for a top-level category, or pick one to make this a subcategory.
+   * Lad stå tomt for en topniveau-kategori, eller vælg en kategori for at gøre denne til en underkategori.
    */
   parent?: (number | null) | Category;
+  /**
+   * Bestem om kategorien er synlig og kan vælges på hjemmesiden.
+   */
   active?: boolean | null;
   meta?: {
     title?: string | null;
@@ -272,8 +302,17 @@ export interface Category {
  */
 export interface ProductBundle {
   id: number;
+  /**
+   * Pakkens navn, som det vises på hjemmesiden.
+   */
   name: string;
+  /**
+   * Bruges i URL'en, fx "fest-50" giver /pakketilbud/fest-50.
+   */
   slug: string;
+  /**
+   * Kort beskrivelse af pakken, vises på pakkesiden.
+   */
   description?: string | null;
   /**
    * Hovedbillede. Vises som udgangspunkt på pakkesiden og i lister.
@@ -288,12 +327,27 @@ export interface ProductBundle {
         id?: string | null;
       }[]
     | null;
+  /**
+   * De produkter og antal, pakken indeholder.
+   */
   productItems: {
+    /**
+     * Produktet, der indgår i pakken.
+     */
     product: number | Product;
+    /**
+     * Antal af produktet i pakken.
+     */
     quantity: number;
     id?: string | null;
   }[];
+  /**
+   * Pakkens samlede pris i kr.
+   */
   price: number;
+  /**
+   * Bestem om pakken er synlig og kan bestilles på hjemmesiden.
+   */
   active?: boolean | null;
   meta?: {
     title?: string | null;
@@ -312,8 +366,17 @@ export interface ProductBundle {
  */
 export interface Page {
   id: number;
+  /**
+   * Titel, der vises øverst på siden og bruges i admin-panelet.
+   */
   title: string;
+  /**
+   * Bruges i URL'en, fx "lejebetingelser" giver /lejebetingelser.
+   */
   slug: string;
+  /**
+   * Sidens indhold.
+   */
   content?: {
     root: {
       type: string;
@@ -346,30 +409,99 @@ export interface Page {
  */
 export interface Order {
   id: number;
+  /**
+   * Kundens fulde navn.
+   */
   customerName: string;
+  /**
+   * Kundens e-mailadresse. Bruges til at sende ordrebekræftelse.
+   */
   customerEmail: string;
+  /**
+   * Kundens telefonnummer.
+   */
   customerPhone?: string | null;
+  /**
+   * Firmanavn, hvis ordren er til en virksomhed.
+   */
   companyName?: string | null;
+  /**
+   * Vælg om kunden afhenter selv eller får leveret til en adresse.
+   */
   deliveryMethod?: ('pickup' | 'delivery') | null;
+  /**
+   * Leveringsadresse. Udfyldes kun hvis leveringsmetoden er "Levering til adresse".
+   */
   deliveryAddress?: {
+    /**
+     * Vejnavn og husnummer.
+     */
     street?: string | null;
+    /**
+     * Postnummer.
+     */
     postalCode?: string | null;
+    /**
+     * By.
+     */
     city?: string | null;
+    /**
+     * Landekode, fx "DK".
+     */
     country?: string | null;
   };
+  /**
+   * Markér hvis faktureringsadressen er den samme som leveringsadressen.
+   */
   billingSameAsDelivery?: boolean | null;
+  /**
+   * Faktureringsadresse. Udfyldes kun hvis den afviger fra leveringsadressen.
+   */
   billingAddress?: {
+    /**
+     * Firmanavn på fakturaen, hvis relevant.
+     */
     companyName?: string | null;
+    /**
+     * Navn på fakturaen.
+     */
     name?: string | null;
+    /**
+     * Vejnavn og husnummer.
+     */
     street?: string | null;
+    /**
+     * Postnummer.
+     */
     postalCode?: string | null;
+    /**
+     * By.
+     */
     city?: string | null;
+    /**
+     * Landekode, fx "DK".
+     */
     country?: string | null;
   };
+  /**
+   * Om kunden har accepteret handelsbetingelserne ved bestilling.
+   */
   termsAccepted?: boolean | null;
+  /**
+   * Datoen for kundens arrangement.
+   */
   eventDate?: string | null;
+  /**
+   * Eventuel kommentar eller særlige ønsker fra kunden.
+   */
   comment?: string | null;
+  /**
+   * Produkterne og pakkerne i ordren.
+   */
   items: {
+    /**
+     * Det bestilte produkt eller pakketilbud.
+     */
     item:
       | {
           relationTo: 'products';
@@ -379,6 +511,9 @@ export interface Order {
           relationTo: 'product-bundles';
           value: number | ProductBundle;
         };
+    /**
+     * Antal bestilt.
+     */
     quantity: number;
     /**
      * Fx "Farve: Rød, Type: Gaffel"
@@ -396,18 +531,24 @@ export interface Order {
 export interface GalleryImage {
   id: number;
   /**
-   * Used as the image alt text and as a caption in the gallery.
+   * Bruges som billedets alt-tekst og som billedtekst i galleriet.
    */
   title: string;
+  /**
+   * Billedet, der vises i galleriet.
+   */
   image: number | Media;
   /**
-   * Include this image in the rotating hero on the front page.
+   * Inkluder dette billede i det roterende hero-billede på forsiden.
    */
   showInHero?: boolean | null;
   /**
-   * Lower numbers appear first, both in the hero rotation and the gallery.
+   * Lavere tal vises først, både i hero-rotationen og galleriet.
    */
   order?: number | null;
+  /**
+   * Bestem om billedet vises på hjemmesiden.
+   */
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -418,12 +559,21 @@ export interface GalleryImage {
  */
 export interface Faq {
   id: number;
+  /**
+   * Spørgsmålet, som det vises i FAQ-listen.
+   */
   question: string;
+  /**
+   * Svaret, der vises når spørgsmålet foldes ud.
+   */
   answer: string;
   /**
-   * Lower numbers appear first.
+   * Lavere tal vises først.
    */
   order?: number | null;
+  /**
+   * Bestem om spørgsmålet vises på hjemmesiden.
+   */
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;

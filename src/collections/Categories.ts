@@ -19,6 +19,9 @@ export const Categories: CollectionConfig = {
       name: 'name',
       type: 'text',
       required: true,
+      admin: {
+        description: 'Kategoriens navn, som det vises på hjemmesiden.',
+      },
     },
     {
       name: 'slug',
@@ -35,13 +38,16 @@ export const Categories: CollectionConfig = {
       type: 'relationship',
       relationTo: 'categories',
       admin: {
-        description: 'Leave empty for a top-level category, or pick one to make this a subcategory.',
+        description: 'Lad stå tomt for en topniveau-kategori, eller vælg en kategori for at gøre denne til en underkategori.',
       },
     },
     {
       name: 'active',
       type: 'checkbox',
       defaultValue: true,
+      admin: {
+        description: 'Bestem om kategorien er synlig og kan vælges på hjemmesiden.',
+      },
     },
   ],
 }
