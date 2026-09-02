@@ -34,6 +34,28 @@ To do so, follow these steps:
 - Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
 - Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
 
+## Database schema changes (Payload migrations)
+
+This project uses Postgres (Supabase) and deploys on Vercel. Locally, `pnpm dev` auto-pushes schema changes to the database for convenience — but that auto-push is disabled in production, so it's not how schema changes reach the live site.
+
+**Whenever you add, remove, or change a field on a collection, follow these steps in order:**
+
+1. Make your change in `src/collections/*.ts` (or a global).
+2. Run `pnpm migrate:create` locally. This looks at what changed and writes a migration file into `src/migrations/`. If the change is ambiguous (e.g. it can't tell whether a field was renamed or a new one added while an old one was dropped), it'll ask you a question in the terminal — answer it here, not at deploy time.
+3. Commit the generated migration file(s) along with your collection change.
+4. `git push`.
+
+What happens after you push: Vercel picks up the push, runs the configured build command (`pnpm build`), which itself runs `pnpm migrate` before `next build`. `pnpm migrate` applies any migration files it hasn't seen yet to the production database, then the app builds and deploys.
+
+**Important:** Vercel only *applies* migration files that already exist in the repo — it never generates one from a live diff. If you push a collection change without running `pnpm migrate:create` first and committing the result, the deploy will succeed but the database won't have the new field/table, and the live site will error the moment it touches that field. The migration file has to exist in the repo *before* you push.
+
+**No separate dev database:** this project has one Postgres database total (no separate local/staging instance). Running `pnpm migrate` or `pnpm build` locally applies migrations to the same database the live site uses — there's no sandbox to test a migration in first, so it's worth glancing at a generated migration file before committing it.
+
+Migration files live in `src/migrations/`. Useful commands:
+
+- `pnpm migrate:create` — generate a new migration from the current schema diff
+- `pnpm migrate` — apply any pending migrations (also runs automatically as part of `pnpm build`)
+
 ## How it works
 
 The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
