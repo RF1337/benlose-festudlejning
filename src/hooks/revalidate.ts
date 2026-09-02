@@ -5,20 +5,31 @@ import { revalidatePath } from 'next/cache'
 // gallery images feeding both the homepage hero and /galleri), so revalidating
 // the whole tree on any content change is simpler and safer than tracking each
 // route's exact data dependencies.
+// revalidatePath requires an active Next.js request context. Content changes made
+// outside one (e.g. a standalone script using the local API) would otherwise fail
+// the whole operation over a cache side effect, so failures here are logged and swallowed.
+function safeRevalidate(path: string, type: 'layout' | 'page') {
+  try {
+    revalidatePath(path, type)
+  } catch {
+    // no request context to revalidate against — nothing to do
+  }
+}
+
 export const revalidateAfterChange: CollectionAfterChangeHook = ({ doc, collection, req }) => {
   req.payload.logger.info(`Revalidating site after "${collection.slug}" change`)
-  revalidatePath('/', 'layout')
+  safeRevalidate('/', 'layout')
   return doc
 }
 
 export const revalidateAfterDelete: CollectionAfterDeleteHook = ({ doc, collection, req }) => {
   req.payload.logger.info(`Revalidating site after "${collection.slug}" delete`)
-  revalidatePath('/', 'layout')
+  safeRevalidate('/', 'layout')
   return doc
 }
 
 export const revalidateGlobalAfterChange: GlobalAfterChangeHook = ({ doc, global, req }) => {
   req.payload.logger.info(`Revalidating site after "${global.slug}" change`)
-  revalidatePath('/', 'layout')
+  safeRevalidate('/', 'layout')
   return doc
 }
