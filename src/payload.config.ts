@@ -48,6 +48,12 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
       max: 5,
     },
+    // There's only one database (no separate local/staging instance), so dev-mode
+    // auto-push isn't just risky here -- it marks the migrations table every time
+    // it runs, which blocks `payload migrate` on Vercel's non-interactive build with
+    // an unanswerable confirmation prompt. Schema changes always go through
+    // `pnpm migrate:create` instead; see README.md.
+    push: false,
   }),
   sharp,
   plugins: [

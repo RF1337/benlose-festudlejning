@@ -36,14 +36,15 @@ To do so, follow these steps:
 
 ## Database schema changes (Payload migrations)
 
-This project uses Postgres (Supabase) and deploys on Vercel. Locally, `pnpm dev` auto-pushes schema changes to the database for convenience — but that auto-push is disabled in production, so it's not how schema changes reach the live site.
+This project uses Postgres (Supabase) and deploys on Vercel. `push` is explicitly disabled on the Postgres adapter (`push: false` in `payload.config.ts`) — `pnpm dev` does **not** auto-apply schema changes. That's deliberate: dev-mode push marks the migrations table every time it runs, and since there's only one database (no separate dev instance), that mark blocks Vercel's non-interactive `pnpm migrate` step on a confirmation prompt it can never answer — the build just hangs until it times out. Don't re-enable `push` without a separate dev database to point it at.
 
 **Whenever you add, remove, or change a field on a collection, follow these steps in order:**
 
 1. Make your change in `src/collections/*.ts` (or a global).
 2. Run `pnpm migrate:create` locally. This looks at what changed and writes a migration file into `src/migrations/`. If the change is ambiguous (e.g. it can't tell whether a field was renamed or a new one added while an old one was dropped), it'll ask you a question in the terminal — answer it here, not at deploy time.
-3. Commit the generated migration file(s) along with your collection change.
-4. `git push`.
+3. Run `pnpm migrate` locally to actually apply it (needed since push no longer does this for you) — your local `pnpm dev` won't see the new field/table until you do.
+4. Commit the generated migration file(s) along with your collection change.
+5. `git push`.
 
 What happens after you push: Vercel picks up the push, runs the configured build command (`pnpm build`), which itself runs `pnpm migrate` before `next build`. `pnpm migrate` applies any migration files it hasn't seen yet to the production database, then the app builds and deploys.
 
