@@ -28,7 +28,7 @@ export default async function FeaturedPackages() {
             <ProductCard
               description={bundle.description}
               detailsHref={`/pakketilbud/${bundle.slug}`}
-              image={image?.url ? { url: image.url, alt: image.alt } : null}
+              image={image?.url ? { url: image.url, alt: image.alt || bundle.name } : null}
               key={bundle.id}
               name={bundle.name}
               price={bundle.price}

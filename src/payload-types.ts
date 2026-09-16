@@ -167,9 +167,9 @@ export interface User {
 export interface Media {
   id: number;
   /**
-   * Alt-tekst til billedet. Bruges for tilgængelighed og vises hvis billedet ikke kan indlæses.
+   * Alt-tekst til billedet. Bruges for tilgængelighed og vises hvis billedet ikke kan indlæses. Kan tilføjes senere.
    */
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;

@@ -56,7 +56,7 @@ export function ProductListing({
                 detailsHref={`/udlejning/${product.slug}`}
                 fromPrice={hasRange}
                 hasVariants={Boolean(product.variants?.length)}
-                image={image?.url ? { url: image.url, alt: image.alt } : null}
+                image={image?.url ? { url: image.url, alt: image.alt || product.name } : null}
                 key={product.id}
                 name={product.name}
                 price={hasRange ? min : product.price}

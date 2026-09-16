@@ -143,7 +143,7 @@ export default async function BundleDetailPage({
                 <ProductCard
                   description={other.description}
                   detailsHref={`/pakketilbud/${other.slug}`}
-                  image={otherImage?.url ? { url: otherImage.url, alt: otherImage.alt } : null}
+                  image={otherImage?.url ? { url: otherImage.url, alt: otherImage.alt || other.name } : null}
                   key={other.id}
                   name={other.name}
                   price={other.price}
