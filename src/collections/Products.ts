@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { revalidateAfterChange, revalidateAfterDelete } from '../hooks/revalidate'
+import { preventProductDeleteIfInUse } from '../hooks/preventDeleteIfInUse'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -11,6 +12,7 @@ export const Products: CollectionConfig = {
   hooks: {
     afterChange: [revalidateAfterChange],
     afterDelete: [revalidateAfterDelete],
+    beforeDelete: [preventProductDeleteIfInUse],
   },
 
   fields: [

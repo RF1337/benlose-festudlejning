@@ -343,6 +343,14 @@ export interface ProductBundle {
      * Antal af produktet i pakken.
      */
     quantity: number;
+    /**
+     * Valgfrit. Udfyld kun hvis produktet har valgmuligheder (fx "Størrelse"), og pakken kræver en bestemt en. Skal matche navnet på produktets valgmulighed præcist.
+     */
+    variantLabel?: string | null;
+    /**
+     * Valgfrit. Den valgte mulighed for dette produkt i pakken, fx "5x6 m".
+     */
+    variantValue?: string | null;
     id?: string | null;
   }[];
   /**
@@ -787,6 +795,8 @@ export interface ProductBundlesSelect<T extends boolean = true> {
     | {
         product?: T;
         quantity?: T;
+        variantLabel?: T;
+        variantValue?: T;
         id?: T;
       };
   price?: T;

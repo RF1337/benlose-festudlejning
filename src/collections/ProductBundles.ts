@@ -91,6 +91,21 @@ export const ProductBundles: CollectionConfig = {
             description: 'Antal af produktet i pakken.',
           },
         },
+        {
+          name: 'variantLabel',
+          type: 'text',
+          admin: {
+            description:
+              'Valgfrit. Udfyld kun hvis produktet har valgmuligheder (fx "Størrelse"), og pakken kræver en bestemt en. Skal matche navnet på produktets valgmulighed præcist.',
+          },
+        },
+        {
+          name: 'variantValue',
+          type: 'text',
+          admin: {
+            description: 'Valgfrit. Den valgte mulighed for dette produkt i pakken, fx "5x6 m".',
+          },
+        },
       ],
     },
     {

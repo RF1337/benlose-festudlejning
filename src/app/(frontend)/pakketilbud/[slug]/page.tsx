@@ -91,7 +91,7 @@ export default async function BundleDetailPage({
     .map((entry) => {
       const product = typeof entry.product === 'object' ? entry.product : null
       if (!product) return null
-      return { product, quantity: entry.quantity }
+      return { product, quantity: entry.quantity, variantValue: entry.variantValue }
     })
     .filter((entry) => entry !== null)
   const otherActiveBundles = otherBundles.filter((b) => b.active)
@@ -121,9 +121,10 @@ export default async function BundleDetailPage({
             <div>
               <p className="mb-2 font-semibold">Denne pakke indeholder:</p>
               <ul>
-                {items.map(({ product, quantity }) => (
-                  <li key={product.id}>
+                {items.map(({ product, quantity, variantValue }, i) => (
+                  <li key={`${product.id}-${i}`}>
                     {quantity} × {product.name}
+                    {variantValue ? ` (${variantValue})` : ''}
                   </li>
                 ))}
               </ul>
