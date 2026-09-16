@@ -11,6 +11,7 @@ import { Breadcrumbs, type Crumb } from '@/components/Breadcrumbs'
 import { BreadcrumbListJsonLd, ProductJsonLd } from '@/components/StructuredData'
 import type { Product } from '@/payload-types'
 import { categoryChain } from '@/utilities/categories'
+import { getPriceRange } from '@/utilities/formatPrice'
 import { absoluteUrl, DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, SITE_NAME, truncate } from '@/utilities/seo'
 import '../../styles.css'
 
@@ -143,16 +144,18 @@ export default async function ProductDetailPage({
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {relatedProducts.map((related) => {
               const relatedImage = typeof related.image === 'object' ? related.image : null
+              const { min, hasRange } = getPriceRange(related.price, related.variants)
 
               return (
                 <ProductCard
                   description={related.description}
                   detailsHref={`/udlejning/${related.slug}`}
+                  fromPrice={hasRange}
                   hasVariants={Boolean(related.variants?.length)}
                   image={relatedImage?.url ? { url: relatedImage.url, alt: related.name } : null}
                   key={related.id}
                   name={related.name}
-                  price={related.price}
+                  price={hasRange ? min : related.price}
                   productId={related.id}
                   type="product"
                 />

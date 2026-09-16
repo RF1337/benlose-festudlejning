@@ -10,6 +10,7 @@ export function ProductCard({
   type,
   name,
   price,
+  fromPrice = false,
   description,
   image,
   detailsHref,
@@ -19,6 +20,9 @@ export function ProductCard({
   type: CartItemType
   name: string
   price: number
+  // True when variant options can push the price above `price` (which is then
+  // the cheapest option), so it should read "Fra 100 kr" instead of "100 kr".
+  fromPrice?: boolean
   description?: string | null
   image?: { url: string; alt: string } | null
   detailsHref: string
@@ -46,7 +50,9 @@ export function ProductCard({
       <div className="pointer-events-none relative flex flex-1 flex-col gap-2 bg-white p-4">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="m-0 min-w-0 text-xl">{name}</h2>
-          <span className="shrink-0 whitespace-nowrap font-bold">{formatPrice(price)}</span>
+          <span className="shrink-0 whitespace-nowrap font-bold">
+            {fromPrice ? `Fra ${formatPrice(price)}` : formatPrice(price)}
+          </span>
         </div>
         {description && <p className="m-0 text-sm">{description}</p>}
         <div className="mt-auto pt-3">

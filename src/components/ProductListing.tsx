@@ -4,6 +4,7 @@ import React, { Suspense } from 'react'
 import { ProductCard } from '@/components/ProductCard'
 import { ProductFilters, type FilterCategory } from '@/components/ProductFilters'
 import type { Product } from '@/payload-types'
+import { getPriceRange } from '@/utilities/formatPrice'
 
 function buildHref(basePath: string, params: Record<string, string | undefined>) {
   const search = new URLSearchParams()
@@ -47,16 +48,18 @@ export function ProductListing({
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => {
             const image = typeof product.image === 'object' ? product.image : null
+            const { min, hasRange } = getPriceRange(product.price, product.variants)
 
             return (
               <ProductCard
                 description={product.description}
                 detailsHref={`/udlejning/${product.slug}`}
+                fromPrice={hasRange}
                 hasVariants={Boolean(product.variants?.length)}
                 image={image?.url ? { url: image.url, alt: image.alt } : null}
                 key={product.id}
                 name={product.name}
-                price={product.price}
+                price={hasRange ? min : product.price}
                 productId={product.id}
                 type="product"
               />
