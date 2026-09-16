@@ -239,6 +239,10 @@ export interface Product {
            * Fx "Rød" eller "Gaffel".
            */
           value: string;
+          /**
+           * Valgfrit. Sæt en pris for denne valgmulighed, hvis den afviger fra produktets pris, fx forskellige størrelser telte. Lad stå tomt for at bruge produktets almindelige pris.
+           */
+          priceOverride?: number | null;
           id?: string | null;
         }[];
         id?: string | null;
@@ -746,6 +750,7 @@ export interface ProductsSelect<T extends boolean = true> {
           | T
           | {
               value?: T;
+              priceOverride?: T;
               id?: T;
             };
         id?: T;

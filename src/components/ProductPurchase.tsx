@@ -28,8 +28,15 @@ export function ProductPurchase({
 }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const [selected, setSelected] = useState<Record<string, string>>(() =>
-    Object.fromEntries(variantGroups.map((group) => [group.label, group.options[0]])),
+    Object.fromEntries(variantGroups.map((group) => [group.label, group.options[0]?.value])),
   )
+
+  // A selected option can override the base price (e.g. tent sizes priced
+  // differently). Later groups win if more than one group happens to set one.
+  const effectivePrice = variantGroups.reduce((current, group) => {
+    const option = group.options.find((o) => o.value === selected[group.label])
+    return option?.price != null ? option.price : current
+  }, price)
 
   useEffect(() => {
     const values = Object.values(selected)
@@ -43,13 +50,13 @@ export function ProductPurchase({
       <ProductGallery activeIndex={activeImageIndex} images={images} onSelect={setActiveImageIndex} />
       <div>
         <h1 className="m-0">{name}</h1>
-        <p className="mb-2 font-bold">{formatPrice(price)}</p>
+        <p className="mb-2 font-bold">{formatPrice(effectivePrice)}</p>
         {description && <p>{description}</p>}
         {children}
         <QuantityAddToCart
           name={name}
           onVariantChange={(label, value) => setSelected((prev) => ({ ...prev, [label]: value }))}
-          price={price}
+          price={effectivePrice}
           productId={productId}
           selected={selected}
           type={type}

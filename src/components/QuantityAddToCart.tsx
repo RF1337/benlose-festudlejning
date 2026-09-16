@@ -6,7 +6,8 @@ import { AddToCartButton } from '@/app/(frontend)/AddToCartButton'
 import type { CartItemType } from '@/app/(frontend)/cart/CartContext'
 import { Select } from '@/components/Select'
 
-export type VariantGroup = { label: string; options: string[] }
+export type VariantOption = { value: string; price?: number | null }
+export type VariantGroup = { label: string; options: VariantOption[] }
 
 export function QuantityAddToCart({
   productId,
@@ -29,7 +30,7 @@ export function QuantityAddToCart({
 }) {
   const [quantity, setQuantity] = useState(1)
   const [internalSelected, setInternalSelected] = useState<Record<string, string>>(() =>
-    Object.fromEntries(variantGroups.map((group) => [group.label, group.options[0]])),
+    Object.fromEntries(variantGroups.map((group) => [group.label, group.options[0]?.value])),
   )
   const selected = controlledSelected ?? internalSelected
   const setVariant = (label: string, value: string) => {
@@ -56,8 +57,8 @@ export function QuantityAddToCart({
                 value={selected[group.label]}
               >
                 {group.options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                  <option key={option.value} value={option.value}>
+                    {option.value}
                   </option>
                 ))}
               </Select>

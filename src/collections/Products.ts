@@ -119,6 +119,15 @@ export const Products: CollectionConfig = {
                 description: 'Fx "Rød" eller "Gaffel".',
               },
             },
+            {
+              name: 'priceOverride',
+              type: 'number',
+              min: 0,
+              admin: {
+                description:
+                  'Valgfrit. Sæt en pris for denne valgmulighed, hvis den afviger fra produktets pris, fx forskellige størrelser telte. Lad stå tomt for at bruge produktets almindelige pris.',
+              },
+            },
           ],
         },
       ],

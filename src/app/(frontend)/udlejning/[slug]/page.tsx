@@ -132,7 +132,7 @@ export default async function ProductDetailPage({
           type="product"
           variantGroups={(product.variants ?? []).map((v) => ({
             label: v.label,
-            options: v.options.map((o) => o.value),
+            options: v.options.map((o) => ({ value: o.value, price: o.priceOverride })),
           }))}
         />
       </div>
