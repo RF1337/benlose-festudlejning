@@ -135,13 +135,16 @@ export default function CheckoutPage() {
     <div className="mx-auto max-w-6xl p-6 min-[400px]:p-11.25">
       <h1>Kassen</h1>
       <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
-        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+        <form autoComplete="on" className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <Section number={1} title="Leveringsadresse">
             <div className="flex flex-col gap-4">
               <label className={labelClass}>
                 E-mail
                 <input
+                  autoComplete="email"
                   className={inputClass}
+                  id="email"
+                  name="email"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   type="email"
@@ -155,7 +158,10 @@ export default function CheckoutPage() {
               <label className={labelClass}>
                 Firmanavn (valgfrit)
                 <input
+                  autoComplete="shipping organization"
                   className={inputClass}
+                  id="companyName"
+                  name="organization"
                   onChange={(e) => setCompanyName(e.target.value)}
                   type="text"
                   value={companyName}
@@ -165,7 +171,10 @@ export default function CheckoutPage() {
                 <label className={labelClass}>
                   Fornavn
                   <input
+                    autoComplete="shipping given-name"
                     className={inputClass}
+                    id="firstName"
+                    name="given-name"
                     onChange={(e) => setFirstName(e.target.value)}
                     required
                     type="text"
@@ -175,7 +184,10 @@ export default function CheckoutPage() {
                 <label className={labelClass}>
                   Efternavn
                   <input
+                    autoComplete="shipping family-name"
                     className={inputClass}
+                    id="lastName"
+                    name="family-name"
                     onChange={(e) => setLastName(e.target.value)}
                     required
                     type="text"
@@ -186,6 +198,7 @@ export default function CheckoutPage() {
               <label className={labelClass}>
                 Gade/vej og nummer
                 <AddressAutocomplete
+                  id="street"
                   onChange={setStreet}
                   onSelect={(result) => {
                     setStreet(result.street)
@@ -203,7 +216,10 @@ export default function CheckoutPage() {
                 <label className={labelClass}>
                   Postnummer
                   <input
+                    autoComplete="shipping postal-code"
                     className={inputClass}
+                    id="postalCode"
+                    name="postal-code"
                     onChange={(e) => setPostalCode(e.target.value)}
                     required
                     type="text"
@@ -213,7 +229,10 @@ export default function CheckoutPage() {
                 <label className={labelClass}>
                   By
                   <input
+                    autoComplete="shipping address-level2"
                     className={inputClass}
+                    id="city"
+                    name="address-level2"
                     onChange={(e) => setCity(e.target.value)}
                     required
                     type="text"
@@ -224,7 +243,10 @@ export default function CheckoutPage() {
               <label className={labelClass}>
                 Telefonnummer
                 <input
+                  autoComplete="tel"
                   className={inputClass}
+                  id="phone"
+                  name="tel"
                   onChange={(e) => setPhone(e.target.value)}
                   required
                   type="tel"
@@ -304,7 +326,10 @@ export default function CheckoutPage() {
                   <label className={labelClass}>
                     Firmanavn (valgfrit)
                     <input
+                      autoComplete="billing organization"
                       className={inputClass}
+                      id="billingCompanyName"
+                      name="organization"
                       onChange={(e) => setBillingCompanyName(e.target.value)}
                       type="text"
                       value={billingCompanyName}
@@ -313,7 +338,10 @@ export default function CheckoutPage() {
                   <label className={labelClass}>
                     Navn
                     <input
+                      autoComplete="billing name"
                       className={inputClass}
+                      id="billingName"
+                      name="name"
                       onChange={(e) => setBillingName(e.target.value)}
                       required={!billingSame}
                       type="text"
@@ -323,6 +351,7 @@ export default function CheckoutPage() {
                   <label className={labelClass}>
                     Gade/vej og nummer
                     <AddressAutocomplete
+                      id="billingStreet"
                       onChange={setBillingStreet}
                       onSelect={(result) => {
                         setBillingStreet(result.street)
@@ -337,7 +366,10 @@ export default function CheckoutPage() {
                     <label className={labelClass}>
                       Postnummer
                       <input
+                        autoComplete="billing postal-code"
                         className={inputClass}
+                        id="billingPostalCode"
+                        name="postal-code"
                         onChange={(e) => setBillingPostalCode(e.target.value)}
                         required={!billingSame}
                         type="text"
@@ -347,7 +379,10 @@ export default function CheckoutPage() {
                     <label className={labelClass}>
                       By
                       <input
+                        autoComplete="billing address-level2"
                         className={inputClass}
+                        id="billingCity"
+                        name="address-level2"
                         onChange={(e) => setBillingCity(e.target.value)}
                         required={!billingSame}
                         type="text"
